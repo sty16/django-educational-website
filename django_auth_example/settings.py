@@ -36,7 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'xadmin',
+    'crispy_forms',
+    'captcha',
+    'reversion'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -113,6 +118,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,'static'),
+)
+
 
 AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = (
@@ -122,4 +131,12 @@ AUTHENTICATION_BACKENDS = (
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.qq.com"  # SMTP服务器主机
+EMAIL_PORT = 25             # 端口
+EMAIL_HOST_USER = "1308478462@qq.com"       # 邮箱地址
+EMAIL_HOST_PASSWORD = "glsnqafsuwztgbdf"    # 密码
+EMAIL_USE_TLS= True
+EMAIL_USE_SSL = False
+EMAIL_SUBJECT_PREFIX = u'[Sercheif]'
+EMAIL_FROM = "1308478462@qq.com"            # 邮箱地址
