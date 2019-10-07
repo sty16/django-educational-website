@@ -11,20 +11,23 @@ class RegisterView(View):
     def post(self, request):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
-            user_name = request.POST.get('email', None)
+            user_name = request.POST.get('username', None)
+            if User.objects.filter(username = user_name):
+                return render(request, 'register.html', {'register_form': register_form, 'msg': '用户名已存在'})
+            user_email = request.POST.get('email', None)
             # 如果用户已存在，则提示错误信息
-            if User.objects.filter(email = user_name):
-                return render(request, 'register.html', {'register_form':register_form,'msg': '用户已存在'})
+            if User.objects.filter(email = user_email):
+                return render(request, 'register.html', {'register_form':register_form,'msg': '邮箱已存在'})
             pass_word = request.POST.get('password', None)
             # 实例化一个user_profile对象
             user_profile = User()
             user_profile.username = user_name
-            user_profile.email = user_name
+            user_profile.email = user_email
             user_profile.is_active = False
             # 对保存到数据库的密码加密
             user_profile.password = make_password(pass_word)
             user_profile.save()
-            send_register_eamil(user_name, 'register')
+            send_register_eamil(user_email, 'register')
             return render(request,'send_success.html')
         else:
             return render(request,'register.html',{'register_form':register_form})
@@ -32,7 +35,7 @@ class RegisterView(View):
 
     def get(self, request):
         register_form = RegisterForm()
-        return render(request, 'users/register.html', context={'register_form':register_form})
+        return render(request, 'register.html', context={'register_form':register_form})
 
 
 class ActiveUserView(View):
