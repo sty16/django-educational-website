@@ -42,9 +42,9 @@ style-test:
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_dev.txt
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple coverage pylint pylint-django pytest-django
   script:
-    - pycodestyle app tests
+    - pycodestyle django_auth_example xadmin users
     - PYCODESTYLE_RET=$?
-    - pylint app tests
+    - pylint django_auth_example xadmin users
     - PYLINT_RET=$?
     - if [ $PYCODESTYLE_RET \> 0 ]; then exit $PYCODESTYLE_RET; fi;
     - exit $PYLINT_RET
