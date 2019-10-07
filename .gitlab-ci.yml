@@ -38,7 +38,7 @@ style-test:
   # allow_failure: true
 
   before_script:
-    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_dev.txt
+    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
   script:
     - pycodestyle app tests
     - PYCODESTYLE_RET=$?
