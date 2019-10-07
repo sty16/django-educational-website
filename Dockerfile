@@ -1,6 +1,6 @@
 FROM python:3.6.5
 
-ENV HOME=/opt/app
+ENV HOME=/opt/utils
 
 WORKDIR $HOME
 
