@@ -1,7 +1,0 @@
--r requirements.txt
-
-coverage
-pytest
-
-pycodestyle
-pylint

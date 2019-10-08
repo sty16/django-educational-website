@@ -22,7 +22,9 @@ django.setup()
 #         response = self.client.post('/')
 #         self.assertEqual(response.status_code, 405)
 
+
 def test():
+    # this is tests.py
     client = Client()
     response = client.get('/')
     assert response.status_code == 200
