@@ -38,7 +38,7 @@ style-test:
   # allow_failure: true
 
   before_script:
-    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_dev.txt
+    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple coverage pylint pylint-django pytest-django
   script:
     - pycodestyle tests.py # django_auth_example xadmin users
