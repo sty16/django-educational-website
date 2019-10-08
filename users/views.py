@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 from django.views.generic import View
 from .models import User, EmailVerifyRecord
 from django.contrib.auth.hashers import make_password
 from utils.email_send import send_register_eamil
+from django.contrib.auth import authenticate,login
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 
 
@@ -11,7 +14,7 @@ class RegisterView(View):
     def post(self, request):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
-            user_name = request.POST.get('username', None)
+            user_name = request.POST.get('username',None)
             if User.objects.filter(username = user_name):
                 return render(request, 'register.html', {'register_form': register_form, 'msg': '用户名已存在'})
             user_email = request.POST.get('email', None)
@@ -58,35 +61,35 @@ class ActiveUserView(View):
         return render(request, "login.html", )
 
 
-# class LoginView(View):
-#     '''用户登录'''
-#
-#     def get(self,request):
-#         return render(request, 'login.html')
-#
-#     def post(self,request):
-#         # 实例化
-#         login_form = LoginForm(request.POST)
-#         if login_form.is_valid():
-#             # 获取用户提交的用户名和密码
-#             user_name = request.POST.get('username', None)
-#             pass_word = request.POST.get('password', None)
-#             # 成功返回user对象,失败None
-#             user = authenticate(username=user_name, password=pass_word)
-#             # 如果不是null说明验证成功
-#             if user is not None:
-#                 if user.is_active:
-#                     # 只有注册激活才能登录
-#                     login(request, user)
-#                     return HttpResponseRedirect(reverse('index'))
-#                 else:
-#                     return render(request, 'login.html', {'msg': '用户名或密码错误', 'login_form': login_form})
-#             # 只有当用户名或密码不存在时，才返回错误信息到前端
-#             else:
-#                 return render(request, 'login.html', {'msg': '用户名或密码错误','login_form':login_form})
-#
-#         # form.is_valid（）已经判断不合法了，所以这里不需要再返回错误信息到前端了
-#         else:
-#             return render(request,'login.html',{'login_form':login_form})
+class LoginView(View):
+    '''用户登录'''
+
+    def get(self, request):
+        return render(request, 'login.html')
+
+    def post(self, request):
+        # 实例化
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            # 获取用户提交的用户名和密码
+            user_name = request.POST.get('username', None)
+            pass_word = request.POST.get('password', None)
+            # 成功返回user对象,失败None
+            user = authenticate(username=user_name, password=pass_word)
+            # 如果不是null说明验证成功
+            if user is not None:
+                if user.is_active:
+                    # 只有注册激活才能登录
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('index'))
+                else:
+                    return render(request, 'login.html', {'msg': '用户名或密码错误', 'login_form': login_form})
+            # 只有当用户名或密码不存在时，才返回错误信息到前端
+            else:
+                return render(request, 'login.html', {'msg': '用户名或密码错误','login_form':login_form})
+
+        # form.is_valid（）已经判断不合法了，所以这里不需要再返回错误信息到前端了
+        else:
+            return render(request,'login.html',{'login_form':login_form})
 def index(request):
     return render(request, 'index.html')
