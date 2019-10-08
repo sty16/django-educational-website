@@ -27,4 +27,3 @@ def test():
     client = Client()
     response = client.get('/')
     assert response.status_code == 200
-
