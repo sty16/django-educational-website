@@ -13,8 +13,4 @@ EXPOSE 80
 
 ENV PYTHONUNBUFFERED=true
 
-<<<<<<< HEAD
 CMD ["python", "manage.py runserver"]
-=======
-CMD ["python", "manage.py runserver"]
->>>>>>> 408b83942adf5faaa05dceedd5540e6a738adefa

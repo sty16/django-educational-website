@@ -22,11 +22,8 @@ unit-test:
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple coverage pylint pylint-django pytest-django
   script:
-<<<<<<< HEAD
     - coverage run  -m pytest tests.py
-=======
     - coverage run --source xadmin -m pytest --junit-xml=xunit-reports/xunit-result.xml
->>>>>>> 408b83942adf5faaa05dceedd5540e6a738adefa
     - ret=$?
     - coverage report
     - exit $ret
@@ -37,11 +34,7 @@ unit-test:
     - /opt/sonar-scanner/bin/sonar-scanner
 
 style-test:
-<<<<<<< HEAD
   image: python:3.6.5
-=======
-  image: python:3.6.4
->>>>>>> 408b83942adf5faaa05dceedd5540e6a738adefa
   stage: test
   # allow_failure: true
 
