@@ -1,10 +1,11 @@
 '''
 Test suite for basic views
 '''
-import django
-from django.test import TestCase
-from django.test import Client
 import os
+import django
+# from django.test import TestCase
+from django.test import Client
+
 
 os.environ.update({"DJANGO_SETTINGS_MODULE": "django_auth_example.settings"})
 django.setup()
@@ -24,7 +25,7 @@ django.setup()
 
 
 def test():
-    # this is tests.py
+    """this is tests.py"""
     client = Client()
     response = client.get('/')
     assert response.status_code == 200
