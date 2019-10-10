@@ -1,5 +1,9 @@
 .idea
 db.sqlite3
+<<<<<<< HEAD
 .coverage
 .idea
 .pytest_cache
+=======
+.coverage
+>>>>>>> 408b83942adf5faaa05dceedd5540e6a738adefa
