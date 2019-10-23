@@ -27,12 +27,15 @@ class RegisterView(View):
             user_profile = User()
             user_profile.username = user_name
             user_profile.email = user_email
-            user_profile.is_active = False
+            user_profile.is_active = True
             # 对保存到数据库的密码加密
             user_profile.password = make_password(pass_word)
             user_profile.save()
-            send_register_eamil(user_email, 'register')
-            return render(request, 'send_success.html')
+            # status = send_register_eamil(user_email, 'register')
+            if 1:
+                return render(request, 'send_success.html')
+            else:
+                return render(request, 'active_fail.html')
         else:
             return render(request,'register.html',{'register_form':register_form})
 
