@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
 from django.views.generic import View
@@ -31,7 +32,7 @@ class RegisterView(View):
             user_profile.password = make_password(pass_word)
             user_profile.save()
             send_register_eamil(user_email, 'register')
-            return render(request,'send_success.html')
+            return render(request, 'send_success.html')
         else:
             return render(request,'register.html',{'register_form':register_form})
 
