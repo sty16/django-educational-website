@@ -14,7 +14,6 @@ def random_str(random_length=8):
     for i in range(random_length):
         str += chars[random.randint(0, length)]
     return str
-
 # 发送注册邮件
 def send_register_eamil(email, send_type="register"):
     # 发送之前先保存到数据库，到时候查询链接是否存在
