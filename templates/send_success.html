@@ -6,5 +6,7 @@
 </head>
 <body>
     <p>已经注册成功！</p>
+    <button class="btn btn-default"><a href="{% url 'users:login' %}?next={{ request.path }}">登录</a>
+    </button>
 </body>
 </html>
