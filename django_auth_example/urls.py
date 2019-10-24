@@ -33,6 +33,6 @@ urlpatterns = [
     url(r'^users/', include('django.contrib.auth.urls')),
     path('captcha/', include('captcha.urls')),
     re_path('active/(?P<active_code>.*)/',ActiveUserView.as_view(),name='user_active'),
-    url(r'^$', views.index, name='index')
-    url(r'^tinymce/', include('tinymce.urls')),
+    url(r'^$', views.index, name='index'),
+    url(r'^tinymce/', include('tinymce.urls'))
 ]

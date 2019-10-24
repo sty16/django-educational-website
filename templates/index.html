@@ -18,6 +18,8 @@
                 </button>
                 <button class="btn btn-default"><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a>
                 </button>
+                <button class="btn btn-default"><a href="{% url 'mycode' %}?next={{ request.path }}">我的代码</a>
+                </button>
             {% else %}
                 <p>你还没有登录，请
                     <button class="btn btn-default"><a href="{% url 'users:login' %}?next={{ request.path }}">登录</a>
