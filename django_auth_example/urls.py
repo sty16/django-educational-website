@@ -3,6 +3,7 @@ from django.contrib import admin
 from users import views
 from users.views import ActiveUserView
 import xadmin
+from video.views import detail
 from xadmin.plugins import xversion
 from django.urls import path,re_path
 xadmin.autodiscover()
@@ -17,6 +18,7 @@ urlpatterns = [
     url(r'^users/', include('django.contrib.auth.urls')),
     path('captcha/', include('captcha.urls')),
     re_path('active/(?P<active_code>.*)/',ActiveUserView.as_view(),name='user_active'),
+    re_path('video_search/(?P<video_id>.*)', detail, name='video_search'),
     path('video/', include('video.urls')),
     url(r'^$', views.index, name='index')
 ]

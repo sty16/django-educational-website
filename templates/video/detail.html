@@ -6,8 +6,7 @@
 {% block content %}
     <div>
     
-        <video class="video" autoplay="autoplay" controls="controls" controlslist="nodownload"
-            disablePictureInPicture>
+        <video class="video" autoplay="autoplay" controls="controls" controlslist="nodownload">
             <source src="{{ MEDIA_URL }}{{ video.file }}" type="video/mp4">
         </video>
         <p>{{ video.title }}</p>
