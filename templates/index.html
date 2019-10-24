@@ -11,12 +11,14 @@
 <div class="flex-center">
     <div class="container">
         <div>
-            <h1 class="logo"><a href="{% url 'index' %}">教育卫星在线平台</a></h1>
+            <h1 class="logo"><a href="{% url 'index' %}">卫星教育在线平台</a></h1>
             {% if user.is_authenticated %}
                 <p>你已登录，欢迎你：<a href="#">{{ user.username }}</a></p>
                 <button class="btn btn-default"><a href="{% url 'logout' %}?next={{ request.path }}">注销登录</a>
                 </button>
                 <button class="btn btn-default"><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a>
+                </button>
+                <button class="btn btn-default"><a href="{% url 'video:index'%}?next={{ request.path }}">查看视频</a>
                 </button>
             {% else %}
                 <p>你还没有登录，请

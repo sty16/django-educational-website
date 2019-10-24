@@ -210,7 +210,7 @@ class ImportView(ImportBaseView):
             ]()
             import_file = form.cleaned_data['import_file']
             # first always write the uploaded file to disk as it may be a
-            # memory file or else based on settings upload handlers
+            # memory file or else based on settings uploads handlers
             tmp_storage = self.get_tmp_storage_class()()
             data = bytes()
             for chunk in import_file.chunks():

@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'xadmin',
     'crispy_forms',
     'captcha',
-    'reversion'
+    'reversion',
+    'video'
 ]
 
 

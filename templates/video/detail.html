@@ -1,0 +1,21 @@
+{% extends "video/base.html" %}
+{% load static %}
+
+{% block title %}视频详情{% endblock title %}
+
+{% block content %}
+    <div>
+    
+        <video class="video" autoplay="autoplay" controls="controls" controlslist="nodownload"
+            disablePictureInPicture>
+            <source src="{{ MEDIA_URL }}{{ video.file }}" type="video/mp4">
+        </video>
+        <p>{{ video.title }}</p>
+        <hr>
+        <p>{{video.description}}</p> 
+
+    </div>
+    <a href="/video">返回视频列表</a>
+
+{% endblock content %} 
+

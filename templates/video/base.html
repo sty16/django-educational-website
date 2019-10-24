@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="基于Django的视频点播网站">
+    <meta name="google-site-verification" content="UhrjUG70pwiY6Sp4u4p5Q3ol8iD7yx4ZSwmGBpoaWik" />
+    <title> {% block title %}python视频教程{% endblock title %}</title>
+
+    {% comment %} 
+    <link rel="stylesheet" type="text/css" href="https://cdn.staticfile.org/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.custom.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    {% endcomment %}
+    <center>
+        <h1>Python教程</h1>
+        <img src="{% static 'images/logo1.jpg' %}" alt="logo" width="120" height="100">
+    </center>
+</head>
+<body>
+    
+    {% comment %} {% include "video/nav.html" %} {% endcomment %}
+    <br>
+
+    <center>
+    <main>
+    {% block content %}
+    这是网页主体部分
+    {% endblock content %}
+    </main>
+    <center>
+
+    <br>
+    <footer>
+        <center>&copy;航天创客教育卫星</center>
+    </footer>
+
+</body>
+</html>
+

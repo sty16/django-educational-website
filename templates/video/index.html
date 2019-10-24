@@ -1,0 +1,25 @@
+{% extends "video/base.html" %}
+{% load static %}
+
+{% block title %}视频列表{% endblock title %}
+
+{% block content %}
+    <div>视频列表</div>
+    <br>
+    <div>
+        {% if video_list %}
+            <ul>
+            {% for video in video_list %}
+                <a href="{{ video.id }}/">{{ video.title }}</a>
+                <div>视频简介：{{video.description}}</div>
+                <div>
+                    <span>发布时间：{{ video.create_time }}</span>
+                </div>
+                <br>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No video.</p>
+        {% endif %}
+    </div>
+{% endblock content %}

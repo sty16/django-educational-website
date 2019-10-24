@@ -162,7 +162,7 @@ class AdminSelectMultiple(forms.SelectMultiple):
 
 
 class AdminFileWidget(forms.ClearableFileInput):
-    template_with_initial = (u'<p class="file-upload">%s</p>'
+    template_with_initial = (u'<p class="file-uploads">%s</p>'
                              % forms.ClearableFileInput.initial_text)
     template_with_clear = (u'<span class="clearable-file-input">%s</span>'
                            % forms.ClearableFileInput.clear_checkbox_label)
