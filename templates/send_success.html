@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-    <p>邮件已发送，请注意查收</p>
+    <p>已经注册成功！</p>
+    <button class="btn btn-default"><a href="{% url 'users:login' %}?next={{ request.path }}">登录</a>
+    </button>
 </body>
 </html>
