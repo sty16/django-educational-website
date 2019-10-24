@@ -19,6 +19,6 @@ def detail(request,video_id):
     template = loader.get_template('video/detail.html')
     context={
         "video": video,
-        "upload_files_dir" : os.path.join(BASE_DIR,"uploads"),
+        "upload_files_dir" : os.path.join(BASE_DIR, "uploads"),
     }
     return HttpResponse(template.render(context,request))
