@@ -21,4 +21,5 @@ def detail(request,video_id):
         "video": video,
         "upload_files_dir" : os.path.join(BASE_DIR, "uploads"),
     }
+    
     return HttpResponse(template.render(context,request))
