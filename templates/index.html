@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -26,6 +27,9 @@
                     </button>
                     或者
                     <button class="btn btn-default"><a href="{% url 'users:register' %}?next={{ request.path }}">注册</a>
+                    </button>
+                    或者
+                    <button class="btn btn-default"><a href="{% url 'users:verify' %}?next={{ request.path }}">手机注册</a>
                     </button>
                 </p>
             {% endif %}
