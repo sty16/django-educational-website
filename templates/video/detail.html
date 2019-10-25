@@ -7,14 +7,18 @@
     <div>
     
         <video class="video" autoplay="autoplay" controls="controls" controlslist="nodownload">
+<<<<<<< HEAD
             <source src="{video '{{ video.file }}'" type="video/mp4">
+=======
+            <source src="{{MEDIA_URL}}{{video.file}}" type="video/mp4">
+>>>>>>> 41766a05f2283052678756bd1f45c03888596f95
         </video>
         <p>{{ video.title }}</p>
         <hr>
         <p>{{video.description}}</p> 
 
     </div>
-    <a href="/video/index">返回视频列表</a>
+    <a href="/video">返回视频列表</a>
 
 {% endblock content %} 
 

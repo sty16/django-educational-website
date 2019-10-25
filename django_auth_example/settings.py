@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -141,3 +142,8 @@ EMAIL_USE_TLS= True
 EMAIL_USE_SSL = False
 EMAIL_SUBJECT_PREFIX = u'[Sercheif]'
 EMAIL_FROM = "1308478462@qq.com"            # 邮箱地址
+
+
+#配置上传媒体文件的位置
+MEDIA_URL ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
