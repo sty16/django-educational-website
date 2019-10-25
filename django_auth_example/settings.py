@@ -40,11 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'captcha',
     'reversion',
-<<<<<<< HEAD
     'video'
-=======
-    'tinymce'
->>>>>>> ecc8d085f00146580d9d8eb3b97aa3c0b7b22d32
 ]
 
 
