@@ -18,3 +18,12 @@ class RegisterForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)
     password = forms.CharField(required=True,min_length=5)
+
+class VerifyForm(forms.Form):
+    username = forms.CharField(required=True)
+    mobile = forms.CharField(required=False)
+    password = forms.CharField(required=True)
+    class Meta(UserCreationForm.Meta):
+        model = User
+
+

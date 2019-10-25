@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
+from .forms import VerifyForm
 from django.views.generic import View
 from .models import User, EmailVerifyRecord
 from django.contrib.auth.hashers import make_password
@@ -8,6 +9,7 @@ from utils.email_send import send_register_eamil
 from django.contrib.auth import authenticate,login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from utils.aliyun import send_code
 
 
 
@@ -27,12 +29,12 @@ class RegisterView(View):
             user_profile = User()
             user_profile.username = user_name
             user_profile.email = user_email
-            user_profile.is_active = True
+            user_profile.is_active = False
             # 对保存到数据库的密码加密
             user_profile.password = make_password(pass_word)
             user_profile.save()
-            # status = send_register_eamil(user_email, 'register')
-            if 1:
+            status = send_register_eamil(user_email, 'register')
+            if status:
                 return render(request, 'send_success.html')
             else:
                 return render(request, 'active_fail.html')
@@ -43,6 +45,35 @@ class RegisterView(View):
     def get(self, request):
         register_form = RegisterForm()
         return render(request, 'register.html', context={'register_form':register_form})
+
+class VerifyView(View):
+    def post(self, request):
+        verify_form = VerifyForm(request.POST)
+        if verify_form.is_valid():
+            user_name = request.POST.get('username',None)
+            user_mobile = request.POST.get('mobile', None)
+            pass_word = request.POST.get('password', None)
+            # 实例化一个user_profile对象
+            user_profile = User()
+            user_profile.username = user_name
+            user_profile.mobile = user_mobile
+            user_profile.is_active = False
+            user_profile.password = make_password(pass_word)
+            sms_status = send_code(user_mobile)
+            if (eval(sms_status)["Message"]) == 'OK':
+                user_profile.save()
+                return render(request, 'register.html', {'verify_form':verify_form,'msg': '已发送，请注意查收'})
+            else:
+                return render(request, 'register.html', {'verify_form':verify_form,'msg': '请重新发送验证码'})
+        else:
+            return render(request,'register.html',{'verify_form':verify_form})
+
+    def get(self, request):
+        verify_form = VerifyForm()
+        return render(request, 'register.html', context={'verify_form':verify_form})
+
+
+
 
 
 class ActiveUserView(View):
@@ -63,6 +94,8 @@ class ActiveUserView(View):
             return render(request, 'active_fail.html')
         # 激活成功跳转到登录页面
         return render(request, "login.html", )
+
+
 
 
 class LoginView(View):
