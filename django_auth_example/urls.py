@@ -21,9 +21,14 @@ urlpatterns = [
     url(r'^users/', include('django.contrib.auth.urls')),
     path('captcha/', include('captcha.urls')),
     re_path('active/(?P<active_code>.*)/',ActiveUserView.as_view(),name='user_active'),
+<<<<<<< HEAD
     re_path('video_search/(?P<video_id>.*)', detail, name='video_search'),
     path('video/', include('video.urls')),
     url(r'^$', views.index, name='index'),
     url(r'^media/(?P<path>.*)$', serve, {"document_root":MEDIA_ROOT})
 
+=======
+    url(r'^$', views.index, name='index'),
+    url(r'^tinymce/', include('tinymce.urls'))
+>>>>>>> ecc8d085f00146580d9d8eb3b97aa3c0b7b22d32
 ]
