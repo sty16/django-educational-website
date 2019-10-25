@@ -38,7 +38,7 @@ def send_register_eamil(email, send_type="register"):
         # 使用Django内置函数完成邮件发送。四个参数：主题，邮件内容，发件人邮箱地址，收件人（是一个字符串列表）
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
         # 如果发送成功
-        if send_status:
-            print('send_email success!')
-        else:
-            print('send_email failed~')
+        # if send_status:
+        #     print('send_email success!')
+        # else:
+        #     print('send_email failed~')
