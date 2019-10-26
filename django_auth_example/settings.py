@@ -140,13 +140,14 @@ EMAIL_FROM = "1308478462@qq.com"            # 邮箱地址
 MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
-#database 选择db.sqlite3或者mysql
+# database 选择db.sqlite3或者mysql
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 # DATABASES = {
 #     'default': {
