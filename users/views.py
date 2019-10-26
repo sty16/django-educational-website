@@ -151,4 +151,4 @@ class LoginView(View):
             return render(request,'login.html',{'login_form':login_form})
 
 def index(request):
-    return render(request, 'base.html')
+    return render(request, 'satellite_index.html')
