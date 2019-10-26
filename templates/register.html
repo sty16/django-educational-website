@@ -74,14 +74,19 @@
                             <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
                             <input type="password" id="id_password" name="password"  value="{{ verify_form.password.value }}" placeholder="请输入6-20位非中文字符密码" />
                         </div>
-                        <!-- <input class="btn btn-green" id="jsEmailRegBtn" type="submit" value="注册并登录" /> -->
+                         <div class="form-group marb8 verify-code">
+                                <label>短信验证码</label>
+                                <input id="jsPhoneRegCaptcha" name="mobile_code" type="text" placeholder="输入手机验证码" />
+                            </div>
+                            <input class="verify-code-btn sendcode" id="jsSendCode" type="submit" value="发送验证码">
+                            <input type='hidden' name='send' value={{verify_form.send.value}} />
                         <div class="error btns" id="jsEmailTips">
                             {% for key,error in verify_form.errors.items %}
                                 {{ error }}
                             {% endfor %}
                             {{ msg }}
                         </div>
-                        <input class="btn btn-green" id="jsEmailRegBtn" type="submit" value="发送验证码" />
+                        <input class="btn btn-green" id="jsEmailRegBtn" type="submit" value="注册并登录" />
                     <input type='hidden' name='csrfmiddlewaretoken' value='5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy' />
                     {% csrf_token %}
                     </form>
