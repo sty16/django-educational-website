@@ -6,7 +6,7 @@ from django.views.generic import View
 from .models import User, EmailVerifyRecord
 from .models import MobileVerify
 from django.contrib.auth.hashers import make_password
-from utils.email_send import send_register_email
+from utils.email_send import yag_send_register_email
 from django.contrib.auth import authenticate,login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -35,8 +35,8 @@ class RegisterView(View):
             # 对保存到数据库的密码加密
             user_profile.password = make_password(pass_word)
             user_profile.save()
-            status = send_register_email(user_email, 'register')
-            if status:
+            status = yag_send_register_email(user_email, 'register')
+            if not status:
                 return render(request, 'send_success.html')
             else:
                 return render(request, 'active_fail.html')
