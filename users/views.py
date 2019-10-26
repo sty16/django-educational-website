@@ -6,7 +6,7 @@ from django.views.generic import View
 from .models import User, EmailVerifyRecord
 from .models import MobileVerify
 from django.contrib.auth.hashers import make_password
-from utils.email_send import send_register_eamil
+from utils.email_send import send_register_email
 from django.contrib.auth import authenticate,login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -21,11 +21,11 @@ class RegisterView(View):
         if register_form.is_valid():
             user_name = request.POST.get('username',None)
             if User.objects.filter(username = user_name):
-                return render(request, 'register.html', {'register_form': register_form, 'msg': '用户名已存在'})
+                return render(request, 'register_email.html', {'register_form': register_form, 'msg': '用户名已存在'})
             user_email = request.POST.get('email', None)
             # 如果用户已存在，则提示错误信息
             if User.objects.filter(email = user_email):
-                return render(request, 'register.html', {'register_form':register_form,'msg': '邮箱已存在'})
+                return render(request, 'register_email.html', {'register_form':register_form,'msg': '邮箱已存在'})
             pass_word = request.POST.get('password', None)
             # 实例化一个user_profile对象
             user_profile = User()
@@ -35,18 +35,18 @@ class RegisterView(View):
             # 对保存到数据库的密码加密
             user_profile.password = make_password(pass_word)
             user_profile.save()
-            status = send_register_eamil(user_email, 'register')
+            status = send_register_email(user_email, 'register')
             if status:
                 return render(request, 'send_success.html')
             else:
                 return render(request, 'active_fail.html')
         else:
-            return render(request,'register.html',{'register_form':register_form})
+            return render(request,'register_email.html',{'register_form':register_form})
 
 
     def get(self, request):
         register_form = RegisterForm()
-        return render(request, 'register.html', context={'register_form':register_form})
+        return render(request, 'register_email.html', context={'register_form':register_form})
 
 class VerifyView(View):
     def post(self, request):

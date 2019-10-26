@@ -15,7 +15,7 @@ def random_str(random_length=8):
         str += chars[random.randint(0, length)]
     return str
 # 发送注册邮件
-def send_register_eamil(email, send_type="register"):
+def send_register_email(email, send_type="register"):
     # 发送之前先保存到数据库，到时候查询链接是否存在
     # 实例化一个EmailVerifyRecord对象
     email_record = EmailVerifyRecord()
