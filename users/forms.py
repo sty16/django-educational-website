@@ -20,9 +20,11 @@ class LoginForm(forms.Form):
     password = forms.CharField(required=True,min_length=5)
 
 class VerifyForm(forms.Form):
-    username = forms.CharField(required=True)
-    mobile = forms.CharField(required=False)
-    password = forms.CharField(required=True)
+    username = forms.CharField(required=True,initial='')
+    mobile = forms.CharField(required=True,initial='')
+    password = forms.CharField(required=True,initial='')
+    send = forms.BooleanField(required=False, initial=False)
+    code = forms.CharField(required=False,initial='')
     class Meta(UserCreationForm.Meta):
         model = User
 

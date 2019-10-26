@@ -4,12 +4,14 @@ from .forms import RegisterForm, LoginForm
 from .forms import VerifyForm
 from django.views.generic import View
 from .models import User, EmailVerifyRecord
+from .models import MobileVerify
 from django.contrib.auth.hashers import make_password
 from utils.email_send import send_register_eamil
 from django.contrib.auth import authenticate,login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from utils.aliyun import send_code
+from datetime import datetime, timedelta
 
 
 
@@ -53,27 +55,46 @@ class VerifyView(View):
             user_name = request.POST.get('username',None)
             user_mobile = request.POST.get('mobile', None)
             pass_word = request.POST.get('password', None)
-            # 实例化一个user_profile对象
-            user_profile = User()
-            user_profile.username = user_name
-            user_profile.mobile = user_mobile
-            user_profile.is_active = False
-            user_profile.password = make_password(pass_word)
-            sms_status = send_code(user_mobile)
-            if (eval(sms_status)["Message"]) == 'OK':
-                user_profile.save()
-                return render(request, 'register.html', {'verify_form':verify_form,'msg': '已发送，请注意查收'})
+            if not verify_form.cleaned_data['send']:
+                # 实例化一个user_profile对象,未发送验证码时候的处理
+                user_profile = User()
+                user_profile.username = user_name
+                user_profile.mobile = user_mobile
+                user_profile.is_active = False
+                user_profile.password = make_password(pass_word)
+                sms_status = send_code(user_mobile)
+                if (eval(sms_status)["Message"]) == 'OK':
+                    user_profile.save()
+                    verify_form.cleaned_data['send'] = True
+                    verify_form = VerifyForm(initial=verify_form.cleaned_data)
+                    return render(request, 'register.html', {'verify_form':verify_form,'msg': '已发送，请注意查收'})
+                else:
+                    return render(request, 'register.html', {'verify_form':verify_form,'msg': '请重新发送验证码'})
             else:
-                return render(request, 'register.html', {'verify_form':verify_form,'msg': '请重新发送验证码'})
+                # 发送验证码
+                code = request.POST.get('mobile_code', None)
+                verify_records = MobileVerify.objects.filter(mobile=user_mobile).order_by("-send_time")
+                if verify_records:
+                    last_record = verify_records[0]
+                    # TODO can't compare offset-naive and offset-aware datetimes
+                    # 有效期为五分钟
+                    # five_mintes_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
+                    # if five_mintes_ago > last_record.send_time:
+                    #     return render(request, 'register.html', {'verify_form':verify_form,'msg': '过期，请重新发送'})
+                    if last_record.code != code:
+                        return render(request, 'register.html', {'verify_form':verify_form,'msg': '验证码错误'})
+                    else:
+                        user = User.objects.get(mobile=user_mobile,username=user_name)
+                        if user:
+                            user.is_active = True
+                            user.save()
+                        return render(request, 'register.html', {'verify_form':verify_form,'msg': '注册成功'})
         else:
             return render(request,'register.html',{'verify_form':verify_form})
 
     def get(self, request):
         verify_form = VerifyForm()
         return render(request, 'register.html', context={'verify_form':verify_form})
-
-
-
 
 
 class ActiveUserView(View):
