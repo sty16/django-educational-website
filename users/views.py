@@ -1,7 +1,7 @@
 # coding=utf-8
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
-from .forms import VerifyForm
+from .forms import VerifyForm,UploadImageForm
 from django.views.generic import View
 from .models import User, EmailVerifyRecord
 from .models import MobileVerify
@@ -167,6 +167,21 @@ class LogoutView(View):
         logout(request)
         return HttpResponseRedirect(reverse('index'))
 
+class UploadImageView(View):
+    '''用户图像修改'''
+    def post(self,request):
+        #上传的文件都在request.FILES里面获取，所以这里要多传一个这个参数
+        image_form = UploadImageForm(request.POST,request.FILES)
+        if image_form.is_valid():
+            image = image_form.cleaned_data['image']
+            request.user.image = image
+            request.user.save()
+            return HttpResponse('{"status":"success"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status":"fail"}', content_type='application/json')
+
 def index(request):
     return render(request, 'satellite_index.html')
+
+
 

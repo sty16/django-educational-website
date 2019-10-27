@@ -70,7 +70,6 @@
             <div class="fl form-box">
                 <h2>帐号登录</h2>
                 <form action="/users/login/" method="post" autocomplete="off">
-                    <input type='hidden' name='csrfmiddlewaretoken' value='mymQDzHWl2REXIfPMg2mJaLqDfaS1sD5' />
                     <div class="form-group marb20 {% if login_form.errors.username %}errorput{% endif %}">
                         <label>用&nbsp;户&nbsp;名</label>
                         <input name="username" id="account_l" type="text" placeholder="用户名/邮箱" />
@@ -86,7 +85,6 @@
                         {{ msg }}
                     </div>
                      <input class="btn btn-green" id="jsLoginBtn" type="submit" value="立即登录 > " />
-                <input type='hidden' name='csrfmiddlewaretoken' value='5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy' />
                     {% csrf_token %}
                 </form>
                 <p class="form-p">没有帐号？<a href="{% url 'users:register' %}">[立即注册]</a></p>

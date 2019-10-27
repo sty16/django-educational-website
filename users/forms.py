@@ -29,4 +29,8 @@ class VerifyForm(forms.Form):
     class Meta(UserCreationForm.Meta):
         model = User
 
-
+class UploadImageForm(forms.ModelForm):
+    '''用户更改图像'''
+    class Meta:
+        model = User
+        fields = ['image']
