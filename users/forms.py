@@ -25,6 +25,7 @@ class VerifyForm(forms.Form):
     password = forms.CharField(required=True,initial='')
     send = forms.BooleanField(required=False, initial=False)
     code = forms.CharField(required=False,initial='')
+    
     class Meta(UserCreationForm.Meta):
         model = User
 

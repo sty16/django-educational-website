@@ -7,7 +7,7 @@ from .models import User, EmailVerifyRecord
 from .models import MobileVerify
 from django.contrib.auth.hashers import make_password
 from utils.email_send import yag_send_register_email
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from utils.aliyun import send_code
@@ -150,5 +150,23 @@ class LoginView(View):
         else:
             return render(request,'login.html',{'login_form':login_form})
 
+
+class UserinfoView(View):
+    def post(self,request):
+        pass 
+    
+    def get(self,request):
+        return render(request,'usercenter_info.html',{})
+
+
+class LogoutView(View):
+    def post(self,request):
+        pass
+    
+    def get(self,request):
+        logout(request)
+        return HttpResponseRedirect(reverse('index'))
+
 def index(request):
-    return render(request, 'usercenter_info.html')
+    return render(request, 'satellite_index.html')
+
