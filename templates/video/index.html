@@ -10,7 +10,7 @@
         {% if video_list %}
             <ul>
             {% for video in video_list %}
-                <a href="/video_search/{{ video.id }}">{{ video.title }}</a>
+                <a href="{{ video.id }}">{{ video.title }}</a>
                 <div>视频简介：{{video.description}}</div>
                 <div>
                     <span>发布时间：{{ video.create_time }}</span>
