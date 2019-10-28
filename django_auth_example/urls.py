@@ -16,7 +16,7 @@ xversion.register_models()
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     # 别忘记在顶部引入 include 函数
-    url(r'^xadmin/',xadmin.site.urls, name='xadmin'), # 添加管理员登录
+    url(r'^xadmin/',xadmin.site.urls, name='administrator'), # 添加管理员登录
     url(r'^users/', include('users.urls')),
     url(r'^users/', include('django.contrib.auth.urls')),
     path('captcha/', include('captcha.urls')),

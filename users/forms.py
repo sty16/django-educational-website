@@ -25,7 +25,12 @@ class VerifyForm(forms.Form):
     password = forms.CharField(required=True,initial='')
     send = forms.BooleanField(required=False, initial=False)
     code = forms.CharField(required=False,initial='')
+    
     class Meta(UserCreationForm.Meta):
         model = User
 
-
+class UploadImageForm(forms.ModelForm):
+    '''用户更改图像'''
+    class Meta:
+        model = User
+        fields = ['image']
