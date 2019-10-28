@@ -17,8 +17,13 @@
                         <a href="{{ video.id }}">{{ video.title }}</a>
                         </dt>
                         <dd>
-                            <ul class="cont clearfix">
+                            <h1>
+                            <a href="{{ video.id }}">{{ video.title }}</a>
+                            </h1>
+                            <ul class="cont clearfix"> 
                                 <li class="c7">视频简介：<span>{{video.description}}</span></li>
+                            </ul>
+                            <ul class="cont clearfix"> 
                                 <li class="time">发布时间：<span>{{ video.create_time }}</span></li>  
                             </ul>
                         </dd>
