@@ -41,11 +41,11 @@
                                     <dt><img width="80" height="80" src="{{ MEDIA_URL }}{{ request.user.image }}"/></dt>
                                     <dd>
                                         <h2>{{ request.user.nick_name }}</h2>
-                                        <p>{{ request.user.username }}</p>
+                                        <!-- <p>{{ request.user.username }}</p> -->
                                     </dd>
                                 </dl>
-                                <div class="btn">
-                                    <a class="personcenter fl" href="{% url 'users:user_info' %}">进入个人中心</a>
+                                <div class="btn" style="margin-top: 20px;">
+                                    <a class="personcenter fl"  href="{% url 'users:user_info' %}">进入个人中心</a>
                                     <a class="fr" href="{% url 'users:logout' %}">退出</a>
                                 </div>
                             </div>

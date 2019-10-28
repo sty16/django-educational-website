@@ -1,7 +1,7 @@
 # coding=utf-8
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
-from .forms import VerifyForm,UploadImageForm
+from .forms import VerifyForm,UploadImageForm, ModifyPwdForm
 from django.views.generic import View
 from .models import User, EmailVerifyRecord
 from .models import MobileVerify
@@ -12,6 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from utils.aliyun import send_code
 from datetime import datetime, timedelta
+import json
 
 
 
@@ -182,6 +183,27 @@ class UploadImageView(View):
 
 def index(request):
     return render(request, 'satellite_index.html')
+
+
+class UpdatePwdView(View):
+    def post(self,request):
+        passwd_form = ModifyPwdForm(request.POST)
+        if passwd_form.is_valid():
+            pwd1 = request.POST.get("password1", "")
+            pwd2 = request.POST.get("password2", "")
+            if pwd1 != pwd2:
+                return HttpResponse('{"status":"fail","msg":"密码不一致"}',  content_type='application/json')
+            user = request.user
+            user.password = make_password(pwd2)
+            user.save()
+
+            return HttpResponse('{"status":"success"}', content_type='application/json')
+        else:
+            return HttpResponse(json.dumps(passwd_form.errors), content_type='application/json')
+
+    def get(self,request):
+        pass
+
 
 
 
