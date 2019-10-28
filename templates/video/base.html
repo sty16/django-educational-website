@@ -1,4 +1,5 @@
 {% load static %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="zh-hans">
 <head>
@@ -6,10 +7,10 @@
     <meta name="description" content="基于Django的视频点播网站">
     <meta name="google-site-verification" content="UhrjUG70pwiY6Sp4u4p5Q3ol8iD7yx4ZSwmGBpoaWik" />
     <title> {% block title %}python视频教程{% endblock title %}</title>
-    <center>
+{% comment %}     <center>
         <h1>Python教程</h1>
         <img src="{% static 'images/logo1.jpg' %}" alt="logo" width="120" height="100">
-    </center>
+    </center> {% endcomment %}
 </head>
 <section class="headerwrap ">
     <header>
