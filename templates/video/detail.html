@@ -1,7 +1,12 @@
 {% extends "video/base.html" %}
 {% load static %}
 
-{% block title %}视频详情{% endblock title %}
+{% block list %}
+
+<li {% if request.path|slice:'9' == '/org/list' %}class="active" {% endif %}><a
+    href="/video">返回视频列表</a></li>
+
+{% endblock list %}
 
 {% block content %}
     <div>
@@ -14,7 +19,6 @@
         <p>{{video.description}}</p> 
 
     </div>
-    <a href="/video">返回视频列表</a>
 
 {% endblock content %} 
 
