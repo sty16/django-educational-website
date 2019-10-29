@@ -6,10 +6,10 @@ from django.shortcuts import get_object_or_404, render
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
+app_name = 'files'
 def index(request):
     file_list= File.objects.order_by('-create_time')
-    template = loader.get_template('file/index.html')
+    template = loader.get_template('files/index.html')
     context={
         "file_list" : file_list,
     }
@@ -17,9 +17,9 @@ def index(request):
     
 def detail(request,file_id):
     file = get_object_or_404(File,pk=file_id)
-    template = loader.get_template('file/detail.html')
+    template = loader.get_template('files/detail.html')
     context={
-        "file": file,
+        "files": files,
     }
 
     return HttpResponse(template.render(context,request))

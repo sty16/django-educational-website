@@ -24,5 +24,6 @@ urlpatterns = [
     re_path('video_search/(?P<video_id>.*)', detail, name='video_search'),
     path('video/', include('video.urls')),
     url(r'^$', views.index, name='index'),
-    url(r'^media/(?P<path>.*)$', serve, {"document_root":MEDIA_ROOT})
+    url(r'^media/(?P<path>.*)$', serve, {"document_root":MEDIA_ROOT}),
+    path('files/', include('files.urls'))
 ]

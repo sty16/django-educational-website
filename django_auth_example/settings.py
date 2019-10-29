@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'captcha',
     'reversion',
-    'video'
+    'video',
+    'files'
 ]
 
 

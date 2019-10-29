@@ -6,7 +6,7 @@ from django.db import models
 class File(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
-    file = models.FileField(upload_to='file/')
+    file = models.FileField(upload_to='files/')
     create_time = models.DateTimeField(auto_now_add=True, blank=True, max_length=20)
 
     class Meta:
