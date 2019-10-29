@@ -8,7 +8,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app_name = 'files'
 def index(request):
-    file_list= File.objects.order_by('-create_time')
+    file_list= File.objects.order_by('-upload_time')
     template = loader.get_template('files/index.html')
     context={
         "file_list" : file_list,

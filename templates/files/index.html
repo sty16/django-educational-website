@@ -9,11 +9,12 @@
     <div>
         {% if file_list %}
             <ul>
-            {% for file in video_list %}
-                <a href="{{ file.id }}">{{ file.title }}</a>
-                <div>文件名：{{video.description}}</div>
+            {% for file in file_list %}
+                <a href="{{ file.id }}">{{ file.filename }}</a>
+                <div>代码描述：{{file.description}}</div>
                 <div>
-                    <span>上传时间：{{ file.create_time }}</span>
+                    <span>上传时间：{{ file.upload_time }}</span>
+                    <span>审核情况：{{ file.checked }}</span>
                 </div>
                 <br>
             {% endfor %}
