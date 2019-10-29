@@ -204,6 +204,22 @@ class UpdatePwdView(View):
     def get(self,request):
         pass
 
+class SendEmailCodeView(View):
 
+    def get(self,request):
+        email = request.GET.get("email", '')
+        if User.objects.filter(email=email):
+            return HttpResponse('{"email":"邮箱已存在"}', content_type='application/json')
+        yag_send_register_email(email,send_type="update_email")
+        return HttpResponse('{"status":"success"}', content_type='application/json')
+class SendMobileCodeView(View):
 
-
+    def get(self, request):
+        mobile = request.GET.get("mobile", "")
+        if User.objects.filter(mobile=mobile):
+            return HttpResponse('{"mobile":"该手机号码已经存在"}', content_type='application/json')
+        sms_status = send_code(mobile)
+        if (eval(sms_status)["Message"]) == 'OK':
+            return HttpResponse('{"status":"success"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status":"failure"}', content_type='application/json')
