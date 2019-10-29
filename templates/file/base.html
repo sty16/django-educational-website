@@ -82,7 +82,7 @@
                             <li {% if request.path == '/' %}class="active" {% endif %}><a
                                     href="{% url 'index' %}">首页</a></li>
                             <li {% if request.path|slice:'7' == '/course' %}class="active"{% endif %}>
-                                <a href="{% url 'file:index' %}">
+                                <a href="{% url 'files:index' %}">
                                     查看程序<img class="hot" src="{% static 'images/nav_hot.png' %}">
                                 </a>
                             </li>
