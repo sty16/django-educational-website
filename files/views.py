@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import File
 from django.template import loader
 from django.shortcuts import get_object_or_404, render
+from django.views.generic import DetailView
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
