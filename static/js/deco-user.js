@@ -12,7 +12,7 @@ function sendCodeChangeEmail($btn){
         cache: false,
         type: "get",
         dataType:'json',
-        url:"/users/sendemail_code/",
+        url:"/users/update/send_emailcode/",
         data:$('#jsChangeEmailForm').serialize(),
         async: true,
         beforeSend:function(XMLHttpRequest){
@@ -26,7 +26,6 @@ function sendCodeChangeEmail($btn){
                 Dml.fun.showErrorTips($('#jsChangeEmailTips'), "邮箱验证码已发送");
             }else if(data.status == 'failure'){
                  Dml.fun.showValidateError($('#jsChangeEmail'), "邮箱验证码发送失败");
-            }else if(data.status == 'success'){
             }
         },
         complete: function(XMLHttpRequest){
@@ -35,6 +34,33 @@ function sendCodeChangeEmail($btn){
         }
     });
 
+}
+function sendCodeChangeMobile($btn) {
+    $.ajax({    
+        cache:false,
+        type: "get",
+        dataType:"json",
+        url:"/users/update/send_mobilecode",
+        data: $('#jsChangeMobile').serialize(),
+        async:true,
+        beforeSend:function(XMLHttpRequest){
+            $btn.val("发送中...");
+            $btn.attr('disabled',true);
+        },
+        success: function(data){
+            if(data.mobile){
+                Dml.fun.showValidateError($('#jsChangeMobile'), data.mobile);
+            }else if(data.status == 'success'){
+                Dml.fun.showErrorTips($('#jsChangeMobileTips'), "手机验证码已发送");
+            }else if(data.status == 'failure'){
+                 Dml.fun.showValidateError($('#jsChangeMobile'), "发送失败，请核对号码信息");
+            }
+        },
+        complete: function(XMLHttpRequest){
+            $btn.val("获取验证码");
+            $btn.removeAttr("disabled");
+        }
+    });
 }
 //个人资料邮箱修改
 function changeEmailSubmit($btn){
@@ -120,6 +146,9 @@ $(function(){
     $('#jsChangeEmailCodeBtn').on('click', function(){
         sendCodeChangeEmail($(this));
     });
+    $('#jsChangeMobileCodeBtn').on('click', function(){
+        sendCodeChangeMobile($(this))
+    })
     $('#jsChangeEmailBtn').on('click', function(){
         changeEmailSubmit($(this));
     });
