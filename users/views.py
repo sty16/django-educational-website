@@ -1,17 +1,18 @@
 # coding=utf-8
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
-from .forms import VerifyForm
+from .forms import VerifyForm,UploadImageForm, ModifyPwdForm
 from django.views.generic import View
 from .models import User, EmailVerifyRecord
 from .models import MobileVerify
 from django.contrib.auth.hashers import make_password
 from utils.email_send import yag_send_register_email
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from utils.aliyun import send_code
 from datetime import datetime, timedelta
+import json
 
 
 
@@ -150,5 +151,59 @@ class LoginView(View):
         else:
             return render(request,'login.html',{'login_form':login_form})
 
+
+class UserinfoView(View):
+    def post(self,request):
+        pass 
+    
+    def get(self,request):
+        return render(request,'usercenter_info.html',{})
+
+
+class LogoutView(View):
+    def post(self,request):
+        pass
+    
+    def get(self,request):
+        logout(request)
+        return HttpResponseRedirect(reverse('index'))
+
+class UploadImageView(View):
+    '''用户图像修改'''
+    def post(self,request):
+        #上传的文件都在request.FILES里面获取，所以这里要多传一个这个参数
+        image_form = UploadImageForm(request.POST,request.FILES)
+        if image_form.is_valid():
+            image = image_form.cleaned_data['image']
+            request.user.image = image
+            request.user.save()
+            return HttpResponse('{"status":"success"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status":"fail"}', content_type='application/json')
+
 def index(request):
     return render(request, 'satellite_index.html')
+
+
+class UpdatePwdView(View):
+    def post(self,request):
+        passwd_form = ModifyPwdForm(request.POST)
+        if passwd_form.is_valid():
+            pwd1 = request.POST.get("password1", "")
+            pwd2 = request.POST.get("password2", "")
+            if pwd1 != pwd2:
+                return HttpResponse('{"status":"fail","msg":"密码不一致"}',  content_type='application/json')
+            user = request.user
+            user.password = make_password(pwd2)
+            user.save()
+
+            return HttpResponse('{"status":"success"}', content_type='application/json')
+        else:
+            return HttpResponse(json.dumps(passwd_form.errors), content_type='application/json')
+
+    def get(self,request):
+        pass
+
+
+
+

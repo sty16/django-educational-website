@@ -86,11 +86,9 @@
                                     查看程序<img class="hot" src="{% static 'images/nav_hot.png' %}">
                                 </a>
                             </li>
-                            <li {% if request.path|slice:'6' == '/vedio' %}class="active"{% endif %}>
-                                <a href="{% url 'video:index' %}">观看视频</a>
-                            </li>
                             <li {% if request.path|slice:'9' == '/org/list' %}class="active" {% endif %}><a
                                     href="">论坛</a></li>
+                            {% block list %}  {% endblock list %}
                         </ul>
                     </div>
                 </div>
@@ -100,17 +98,16 @@
 <br>
 </section>
 
+{#面包屑#}
+{% block custom_bread %}
+{% endblock %}
 
 
-    <center>
-    <main>
-    {% block content %}
-    这是网页主体部分
-    {% endblock content %}
-    </main>
-    <center>
+{% block content %}
+这是网页主体部分
+{% endblock content %}
 
-    <br>
+
 
 
 
@@ -133,6 +130,11 @@
         </div>
     </div>
 </footer>
+
+
+{% block custom_js %}
+
+{% endblock %}
 
 </body>
 </html>
