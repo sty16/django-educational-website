@@ -98,7 +98,9 @@
 <br>
 </section>
 
-
+{#面包屑#}
+{% block custom_bread %}
+{% endblock %}
 
 
 {% block content %}
@@ -128,6 +130,11 @@
         </div>
     </div>
 </footer>
+
+
+{% block custom_js %}
+
+{% endblock %}
 
 </body>
 </html>
