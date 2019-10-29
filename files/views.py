@@ -14,3 +14,12 @@ def index(request):
         "file_list" : file_list,
     }
     return HttpResponse(template.render(context,request))
+    
+def detail(request,file_id):
+    file = get_object_or_404(File,pk=file_id)
+    template = loader.get_template('file/detail.html')
+    context={
+        "file": file,
+    }
+
+    return HttpResponse(template.render(context,request))
