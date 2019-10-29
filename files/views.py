@@ -23,3 +23,21 @@ def detail(request,file_id):
     }
 
     return HttpResponse(template.render(context,request))
+
+class file_show(DetailView):  # lvkai
+
+    def get(self, request):  # lvkai add ', file_id'
+        return render(request, 'file-show/file_show-main.html', {
+            'mould': os.path.join(BASE_DIR, 'media', 'commen'),
+            'MEDIA_URL': MEDIA_URL}
+                    )
+
+    def post(self, request):
+        obj = request.FILES.get('fafafa', '1')
+        print(obj.name)
+        f = open(os.path.join(BASE_DIR, 'media', 'image', obj.name), 'wb')
+        for chunk in obj.chunks():
+            f.write(chunk)
+        f.close()
+        # return render(request, 'clashphone/test.html')
+        return HttpResponse('OK')
