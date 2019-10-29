@@ -1,6 +1,7 @@
 {% load static %}
 <!-- 空白背景框jsdialog作为定位 -->
 <div class="dialog" id="jsDialog">
+    <!-- 提示框 -->
     <div class="successbox dialogbox" id="jsSuccessTips">
         <h1>成功提交</h1>
         <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
@@ -44,6 +45,45 @@
                     {% csrf_token %}
                 </form>
             </div>
+    </div>
+    <!-- 修改用户邮箱 -->
+    <div class="dialogbox changeemai1 changephone" id="jsChangeEmailDialog">
+        <h1>修改邮箱</h1>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
+        <p>请输入新的邮箱地址</p>
+        <form id="jsChangeEmailForm" autocomplete="off">
+            <div class="box">
+                <input class="fl change_email" name="email" id="jsChangeEmail" type="text" placeholder="输入重新绑定的邮箱地址">
+            </div>
+            <div class="box">
+                <input class="fl email_code" type="text" id="jsChangeEmailCode" name="code" placeholder="输入邮箱验证码">
+                <input class="getcode getting" type="button" id="jsChangeEmailCodeBtn" value="获取验证码">
+            </div>
+            <div class="error btns change_email_tips" id="jsChangeEmailTips">请输入...</div>
+            <div class="button">
+                <input class="changeemai_btn" id="jsChangeEmailBtn" type="button" value="完成"/>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+    <div class="dialogbox changeemai1 changephone" id="jsChangeMobileDialog"></div>
+        <h1>修改手机</h1>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
+        <p>请输入新的手机号码</p>
+        <form id="jsChangeEmailForm" autocomplete="off">
+            <div class="box">
+                <input class="fl change_email" name="email" id="jsChangeEmail" type="text" placeholder="输入重新绑定的手机号码">
+            </div>
+            <div class="box">
+                <input class="fl email_code" type="text" id="jsChangeEmailCode" name="code" placeholder="输入手机验证码">
+                <input class="getcode getting" type="button" id="jsChangeEmailCodeBtn" value="获取验证码">
+            </div>
+            <div class="error btns change_email_tips" id="jsChangeEmailTips">请输入...</div>
+            <div class="button">
+                <input class="changeemai_btn" id="jsChangeEmailBtn" type="button" value="完成"/>
+            </div>
+            {% csrf_token %}
+        </form>
     </div>
 </div>
 <div class="bg" id="dialogBg"></div>

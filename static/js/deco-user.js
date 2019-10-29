@@ -114,7 +114,7 @@ $(function(){
     }});
 
 
-    $('.changeemai_btn').click(function(){
+    $('#change_email_Btn').click(function(){
         Dml.fun.showDialog('#jsChangeEmailDialog', '#jsChangePhoneTips' ,'jsChangeEmailTips');
     });
     $('#jsChangeEmailCodeBtn').on('click', function(){
@@ -123,8 +123,10 @@ $(function(){
     $('#jsChangeEmailBtn').on('click', function(){
         changeEmailSubmit($(this));
     });
-
-
+    
+    $('#change_mobile_Btn').click(function() { 
+        Dml.fun.showDialog('#jsChangeMobileDialog', '#jsChangePhoneTips' ,'jsChangeEmailTips');
+    });
      //input获得焦点样式
     $('.perinform input[type=text]').focus(function(){
         $(this).parent('li').addClass('focus');
