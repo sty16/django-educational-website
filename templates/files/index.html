@@ -1,19 +1,19 @@
-{% extends "video/base.html" %}
+{% extends "files/base.html" %}
 {% load static %}
 
-{% block title %}代码列表{% endblock title %}
+{% block title %}我的代码{% endblock title %}
 
 {% block content %}
     <div>代码列表</div>
     <br>
     <div>
-        {% if video_list %}
+        {% if file_list %}
             <ul>
-            {% for video in video_list %}
-                <a href="{{ video.id }}">{{ video.title }}</a>
+            {% for file in video_list %}
+                <a href="{{ file.id }}">{{ file.title }}</a>
                 <div>文件名：{{video.description}}</div>
                 <div>
-                    <span>上传时间：{{ video.create_time }}</span>
+                    <span>上传时间：{{ file.create_time }}</span>
                 </div>
                 <br>
             {% endfor %}
