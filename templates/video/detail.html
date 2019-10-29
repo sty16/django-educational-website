@@ -31,14 +31,14 @@
 {% block content %}
     <div id="main">
         <div class="course-info-main clearfix w has-progress">
-            <div style="width:800px;height: 370px; margin-left:60px">
+            <div style="width:640px;height: 370px; margin-left:50px">
                 <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="640"
                        data-setup="" type="video/mp4">
                     <source src="{{MEDIA_URL}}{{video.file}}" type="video/mp4">
                 </video>
             </div>
         </div>
-        <div style="width:1200px;height: 380px; margin-left:80px">
+        <div style="width:1200px;height: 380px; margin-left:70px">
             <h2> {{ video.title }} </h2>
             <ul class="cont clearfix"> 
                 <p>视频简介：<span>{{video.description}}</span></p><br> 
