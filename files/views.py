@@ -7,7 +7,7 @@ from django.views.generic import DetailView
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MEDIA_URL = os.path.join(BASE_DIR, 'media', 'commen')
+MEDIA_URL = os.path.join(BASE_DIR, 'media', 'commen'),
 
 app_name = 'files'
 def index(request):
