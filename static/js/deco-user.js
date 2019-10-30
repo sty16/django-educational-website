@@ -162,7 +162,30 @@ $(function(){
             }
         });
     });
-
+    $('#jsChangePwdCodeBtn').on('click',function(){
+        $.ajax({
+            cache:false,
+            type:"get",
+            dataType:'json',
+            url:"/users/update/pwd_send/",
+            async:true,
+            beforeSend:function(XMLHttpRequest){
+                $('#jsChangePwdCodeBtn').val("发送中...");
+                $('#jsChangePwdCodeBtn').attr('disabled',true);
+            },
+            success: function(data) {
+               if(data.status == "success"){
+                   $('#pwd').removeAttr("disabled")
+                   $('#repwd').removeAttr("disabled")
+                   $('#jsChangePwdCodeBtn').val("已发送");
+                   $("#jsChangeMobileTips").html("请填写验证码与密码").show(500);
+                }else if(data.msg){
+                    Dml.fun.showValidateError($("#pwd"), data.msg);
+                    Dml.fun.showValidateError($("#repwd"), data.msg);
+                }
+            }
+        });
+    })
     //个人资料头像
     $('.js-img-up').uploadPreview({ Img: ".js-img-show", Width: 94, Height: 94 ,Callback:function(){
         $('#jsAvatarForm').submit();
