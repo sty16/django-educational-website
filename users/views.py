@@ -276,7 +276,7 @@ class UpdateMobileView(View):
 class UpdateUserinfoView(View):
 
     def get(self,request):
-        pass
+        return render(request,'usercenter_info.html',{})
     
     def post(self,request):
         userinfo_form = UserInfoForm(request.POST)
