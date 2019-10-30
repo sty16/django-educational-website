@@ -4,6 +4,7 @@ from .models import File
 from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView
+from django.utils import timezone
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -31,11 +32,13 @@ def upload(request):
         files = request.FILES.get("sendfile")
         os.system("mkdir uploads")
        #把文件保存到项目中一个叫做uploads的文件夹下面
-        file_ = os.path.join("uploads", files.name)
+        '''file_ = os.path.join("uploads", files.name)
         f = open(file_, "wb")
         for item in files.chunks():
             f.write(item)
-        f.close()
+        f.close()'''
+        upload_time=timezone.localtime()
+        File.objects.create(filename=files.name, username=request.user.username, description=request.POST['message'], file=files, checked='no')
     return HttpResponse('<script>alert("添加成功");location.href="/files/";</script>')
 
 

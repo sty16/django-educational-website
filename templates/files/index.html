@@ -4,9 +4,13 @@
 {% block title %}我的代码{% endblock title %}
 
 {% block content %}
+{% if request.user.is_authenticated %}
 <div>
     <form method="post" action="/files/upload/" enctype="multipart/form-data">
     {% csrf_token %}
+        <textarea name="message" rows="10" cols="30">
+        对代码功能的描述
+        </textarea>
         <input type="file" name="sendfile"/>
         <input type="submit" value="确定"/>
     </form>
@@ -25,6 +29,7 @@
                 <div>
                     <span>上传时间：{{ file.upload_time }}</span>
                     <span>审核情况：{{ file.checked }}</span>
+                    <span>上传者：{{ file.username }}</span>
                 </div>
                 <br>
             {% endfor %}
@@ -33,4 +38,7 @@
             <p>还没有上传代码</p>
         {% endif %}
     </div>
+    {% else %}
+    登录后可以上传和查看代码
+{% endif %}
 {% endblock content %}
