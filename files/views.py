@@ -26,6 +26,18 @@ def detail(request,file_id):
     }
 
     return HttpResponse(template.render(context,request))
+def upload(request):
+    if request.method == "POST":
+        files = request.FILES.get("sendfile")
+        os.system("mkdir uploads")
+       #把文件保存到项目中一个叫做uploads的文件夹下面
+        file_ = os.path.join("uploads", files.name)
+        f = open(file_, "wb")
+        for item in files.chunks():
+            f.write(item)
+        f.close()
+    return HttpResponse('<script>alert("添加成功");location.href="/files/";</script>')
+
 
 class file_show(DetailView):  # lvkai
 
