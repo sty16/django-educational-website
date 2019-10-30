@@ -35,6 +35,7 @@ function sendCodeChangeEmail($btn){
     });
 
 }
+// 发送个人手机验证码
 function sendCodeChangeMobile($btn) {
     $.ajax({    
         cache:false,
@@ -42,7 +43,7 @@ function sendCodeChangeMobile($btn) {
         dataType:"json",
         url:"/users/update/send_mobilecode",
         data: $('#jsChangeMobile').serialize(),
-        async:true,
+        async: true,
         beforeSend:function(XMLHttpRequest){
             $btn.val("发送中...");
             $btn.attr('disabled',true);
@@ -100,7 +101,35 @@ var verify = verifyDialogSubmit(
         }
     });
 }
-
+function ChangeMobileSubmit($btn) {
+    $.ajax({
+        cache:false,
+        type:"post",
+        dataType:"json",
+        url:"/users/update_mobile/",
+        data:$("#jsChangeMobileForm").serialize(),
+        async:true,
+        beforeSend:function(XMLHttpRequest){
+            $btn.val("发送中...");
+            $btn.attr('disabled',true);
+            $("#jsChangeMobileTips").html("验证中...").show(500);
+        },
+        success: function(data) {
+            if(data.mobile){
+                Dml.fun.showValidateError($('#jsChangeMobile'), data.email);
+            }else if(data.status == "success"){
+                Dml.fun.showErrorTips($('#jsChangePhoneTips'), "手机信息更新成功");
+                setTimeout(function(){location.reload();},1000);
+            }else{
+                 Dml.fun.showValidateError($('#jsChangeMobile'), "手机信息更新失败");
+            }
+        },
+        complete: function(XMLHttpRequest){
+            $btn.val("完成");
+            $btn.removeAttr("disabled");
+        }
+    });
+}
 $(function(){
     //个人资料修改密码
     $('#jsUserResetPwd').on('click', function(){
@@ -152,7 +181,9 @@ $(function(){
     $('#jsChangeEmailBtn').on('click', function(){
         changeEmailSubmit($(this));
     });
-    
+    $('#jsChangeMobileBtn').on('click',function(){
+        ChangeMobileSubmit($(this))
+    })
     $('#change_mobile_Btn').click(function() { 
         Dml.fun.showDialog('#jsChangeMobileDialog', '#jsChangePhoneTips' ,'jsChangeEmailTips');
     });
@@ -170,60 +201,55 @@ $(function(){
         max: laydate.now()
     });
 
-    verify(
-        [
-            {id: '#nick_name', tips: Dml.Msg.epNickName, require: true}
-        ]
-    );
     //保存个人资料
-    $('#jsEditUserBtn').on('click', function(){
-        var _self = $(this),
-            $jsEditUserForm = $('#jsEditUserForm')
-            verify = verifySubmit(
-            [
-                {id: '#nick_name', tips: Dml.Msg.epNickName, require: true}
-            ]
-        );
-        if(!verify){
-           return;
-        }
-        $.ajax({
-            cache: false,
-            type: 'post',
-            dataType:'json',
-            url:"/users/info/",
-            data:$jsEditUserForm.serialize(),
-            async: true,
-            beforeSend:function(XMLHttpRequest){
-                _self.val("保存中...");
-                _self.attr('disabled',true);
-            },
-            success: function(data) {
-                if(data.nick_name){
-                    _showValidateError($('#nick_name'), data.nick_name);
-                }else if(data.birday){
-                   _showValidateError($('#birth_day'), data.birday);
-                }else if(data.adress){
-                   _showValidateError($('#adress'), data.adress);
-                }else if(data.status == "failure"){
-                     Dml.fun.showTipsDialog({
-                        title: '保存失败',
-                        h2: data.msg
-                    });
-                }else if(data.status == "success"){
-                    Dml.fun.showTipsDialog({
-                        title: '保存成功',
-                        h2: '个人信息修改成功！'
-                    });
-                    setTimeout(function(){window.location.href = window.location.href;},1500);
-                }
-            },
-            complete: function(XMLHttpRequest){
-                _self.val("保存");
-                _self.removeAttr("disabled");
-            }
-        });
-    });
+//     $('#jsEditUserBtn').on('click', function(){
+//         var _self = $(this),
+//             $jsEditUserForm = $('#jsEditUserForm')
+//             verify = verifySubmit(
+//             [
+//                 {id: '#nickname', tips: Dml.Msg.epNickName, require: true}
+//             ]
+//         );
+//         if(!verify){
+//            return;
+//         }
+//         $.ajax({
+//             cache: false,
+//             type: 'post',
+//             dataType:'json',
+//             url:"/users/update_userinfo/",
+//             data:$jsEditUserForm.serialize(),
+//             async: true,
+//             beforeSend:function(XMLHttpRequest){
+//                 _self.val("保存中...");
+//                 _self.attr('disabled',true);
+//             },
+//             success: function(data) {
+//                 if(data.nick_name){
+//                     _showValidateError($('#nickname'), data.nick_name);
+//                 }else if(data.birday){
+//                    _showValidateError($('#birthday'), data.birday);
+//                 }else if(data.adress){
+//                    _showValidateError($('#address'), data.adress);
+//                 }else if(data.status == "failure"){
+//                      Dml.fun.showTipsDialog({
+//                         title: '保存失败',
+//                         h2: data.msg
+//                     });
+//                 }else if(data.status == "success"){
+//                     Dml.fun.showTipsDialog({
+//                         title: '保存成功',
+//                         h2: '个人信息修改成功！'
+//                     });
+//                     setTimeout(function(){window.location.href = window.location.href;},1500);
+//                 }
+//             },
+//             complete: function(XMLHttpRequest){
+//                 _self.val("保存");
+//                 _self.removeAttr("disabled");
+//             }
+//         });
+//     });
 
 
 });

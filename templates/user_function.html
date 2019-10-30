@@ -70,7 +70,7 @@
         <h1>修改绑定手机</h1>
         <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
         <p>请输入新的手机号码</p>
-        <form id="jsChangeEmailForm" autocomplete="off">
+        <form id="jsChangeMobileForm" autocomplete="off">
             <div class="box">
                 <input class="fl change_email" name="mobile" id="jsChangeMobile" type="text" placeholder="输入重新绑定的手机号码">
             </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="error btns change_email_tips" id="jsChangeMobileTips">请输入...</div>
             <div class="button">
-                <input class="changeemai_btn" id="jsChangeEmailBtn" type="button" value="完成"/>
+                <input class="changeemai_btn" id="jsChangeMobileBtn" type="button" value="完成"/>
             </div>
             {% csrf_token %}
         </form>
