@@ -4,7 +4,7 @@
 {% block title %}我的代码{% endblock title %}
 
 {% block content %}
-{% if request.user.is_authenticated %}
+{% if not request.user.is_authenticated %}
 <div>
     <form method="post" action="/files/upload/" enctype="multipart/form-data">
     {% csrf_token %}
@@ -24,7 +24,7 @@
         {% if file_list %}
             <ul>
             {% for file in file_list %}
-                <a href="file_show/{{ file.id }}">{{ file.filename }}</a>
+                <a href="file_show/{{ file.checked }}/{{file.filename}}">{{ file.filename }}</a>
                 <div>代码描述：{{file.description}}</div>
                 <div>
                     <span>上传时间：{{ file.upload_time }}</span>
