@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.shortcuts import render, redirect
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, UserInfoForm
 from .forms import VerifyForm,UploadImageForm, ModifyPwdForm
 from django.views.generic import View
 from .models import User, EmailVerifyRecord
@@ -210,7 +210,7 @@ class SendEmailCodeView(View):
         email = request.GET.get("email", '')
         if User.objects.filter(email=email):
             return HttpResponse('{"email":"邮箱已存在"}', content_type='application/json')
-        yag_send_register_email(email,send_type="update_email")
+        yag_send_register_email(email, send_type="update_email")
         return HttpResponse('{"status":"success"}', content_type='application/json')
 class SendMobileCodeView(View):
 
@@ -223,3 +223,69 @@ class SendMobileCodeView(View):
             return HttpResponse('{"status":"success"}', content_type='application/json')
         else:
             return HttpResponse('{"status":"failure"}', content_type='application/json')
+
+
+class UpdateEmailView(View):
+    
+    def get(self, request):
+        pass
+    def post(self, request):
+        email = request.POST.get("email","")
+        code = request.POST.get("code","")
+        Verify_Records = EmailVerifyRecord.objects.filter(email=email,send_type='update_email').order_by("-send_time")
+        if Verify_Records:
+            last_record = Verify_Records[0]
+            if last_record.code == code:
+                user = request.user
+                user.email = email
+                user.save()
+                return HttpResponse('{"status":"success"}',content_type="application/json")
+            else:
+                return HttpResponse('{"status":"failure"}',content_type="application/json")
+        else:
+            return HttpResponse('{"status":"failure"}', content_type='application/json')
+
+
+class UpdateMobileView(View):
+
+    def get(self,request):
+        pass
+    def post(self,request):
+        mobile = request.POST.get("mobile","")
+        code = request.POST.get("code","")
+        Verify_Records = MobileVerify.objects.filter(mobile=mobile).order_by("-send_time")
+        if Verify_Records:
+            last_record = Verify_Records[0]
+            if last_record.code == code:
+                user = request.user
+                user.mobile = mobile
+                user.save()
+                return HttpResponse('{"status":"success"}',content_type="application/json")
+            else:
+                return HttpResponse('{"status":"failure"}',content_type="application/json")
+        else:
+            return HttpResponse('{"status":"failure"}',content_type="application/json")
+
+class UpdateUserinfoView(View):
+
+    def get(self,request):
+        pass
+    
+    def post(self,request):
+        userinfo_form = UserInfoForm(request.POST)
+        if userinfo_form.is_valid():
+            nickname = request.POST.get("nickname","")
+            gender = request.POST.get("gender","")
+            birthday = request.POST.get("birthday","")
+            address = request.POST.get("address","")
+            user = request.user
+            user.nickname = nickname
+            user.gender = gender
+            user.birthday = birthday
+            user.address  = address
+            user.save()
+            return render(request,'usercenter_info.html',{})
+        else:
+            return render(request,'usercenter_info.html',{})
+            # return HttpResponse(json.dumps(userinfo_form.errors), content_type='application/json')
+
