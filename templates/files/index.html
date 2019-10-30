@@ -4,6 +4,44 @@
 {% block title %}我的代码{% endblock title %}
 
 {% block content %}
+  <iframe id='frameFile' name='frameFile' style='display: none;'></iframe>
+  <form id= "uploadForm" enctype="multipart/form-data">
+    <p >指定文件名： <input type="text" name="filename" value= ""/></p >
+    <p >上传文件： <input type="file" name="file"/></ p>
+    <input type="button" value="上传" onclick="doUpload()" />
+  </form>
+<jsp:include page="/static/footer.jsp"/>
+<script type="text/javascript">
+    function getRequestUrl() {
+        var strFullPath = window.document.location.href;
+        var strPath = window.document.location.pathname;
+        var pos = strFullPath.indexOf(strPath);
+        var prePath = strFullPath.substring(0, pos);
+        var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
+        var path = prePath + postPath;
+        return path;
+    }
+    function doUpload() {
+        var formData = new FormData($( "#uploadForm" )[0]);
+        formData.append("CODE","123456");  //自定义参数传递
+        window.alert(getRequestUrl());
+        $.ajax({
+            url: getRequestUrl() + "/testUpLoadForm",
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert(data);
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>
  <div><a style="color:white" class="fr loginbtn" href="{% url 'users:login' %}">上传代码</a></div>
     <div>代码列表</div>
     <br>
