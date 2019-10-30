@@ -36,6 +36,7 @@ class UploadImageForm(forms.ModelForm):
         fields = ['image']
 
 class ModifyPwdForm(forms.Form):
+    code = forms.CharField(max_length=10,required=True)
     password1 = forms.CharField(required=True)
     password2 = forms.CharField(required=True)
 
