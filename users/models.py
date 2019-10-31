@@ -8,11 +8,11 @@ class User(AbstractUser):
         ('female','女')
     )
     nickname = models.CharField(max_length=50, blank=True)
-    mobile = models.CharField(max_length=11, verbose_name="电话", help_text="电话号码")
+    mobile = models.CharField(max_length=11,blank=True, verbose_name="电话", help_text="电话号码")
     birthday = models.CharField('生日',null=True,blank=True, max_length=100)
-    gender = models.CharField('性别',max_length=10,choices=gender_choices,default='male')
-    address = models.CharField('地址',max_length=100,default='')
-    image = models.ImageField(upload_to='user_image/',default='user_image/default.png',max_length=100)
+    gender = models.CharField('性别',max_length=10,blank=True,choices=gender_choices,default='male')
+    address = models.CharField('地址',blank=True,max_length=100,default='')
+    image = models.ImageField(upload_to='user_image/',blank=True,default='user_image/default.png',max_length=100)
     class Meta(AbstractUser.Meta):
         pass
 

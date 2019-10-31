@@ -25,5 +25,6 @@ urlpatterns = [
     path('video/', include('video.urls')),
     url(r'^$', views.index, name='index'),
     url(r'^media/(?P<path>.*)$', serve, {"document_root":MEDIA_ROOT}),
-    path('files/', include('files.urls'))
+    path('files/', include('files.urls')),
+    path("coding/", include('coding.urls', namespace="coding")),
 ]
