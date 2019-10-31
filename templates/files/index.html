@@ -4,7 +4,7 @@
 {% block title %}我的代码{% endblock title %}
 
 {% block content %}
-{% if not request.user.is_authenticated %}
+{% if request.user.is_authenticated %}
 <div>
     <form method="post" action="/files/upload/" enctype="multipart/form-data">
     {% csrf_token %}
