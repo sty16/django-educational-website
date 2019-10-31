@@ -4,27 +4,28 @@
 {% block title %}我的代码{% endblock title %}
 
 {% block content %}
+<br>
 {% if request.user.is_authenticated %}
 <div>
+    <h1><big><b>上传我的代码</b></h1></big><br>
     <form method="post" action="/files/upload/" enctype="multipart/form-data">
     {% csrf_token %}
+    <h2>对代码功能的描述:</h2><br>
         <textarea name="message" rows="10" cols="30">
-        对代码功能的描述
-        </textarea>
+        </textarea><br>
         <input type="file" name="sendfile"/>
-        <input type="submit" value="确定"/>
+        <h1><input type="submit" value="确定"/></h1>
     </form>
-    
+    <br>
 </div>
-
- <div><a style="color:white" class="fr loginbtn" href="{% url 'users:login' %}">上传代码</a></div>
-    <div>代码列表</div>
+<h2>
+    <div><big><b>代码列表</b></big></div>
     <br>
     <div>
         {% if file_list %}
             <ul>
             {% for file in file_list %}
-                <a href="file_show/{{ file.id }}">{{ file.filename }}</a>
+                <a href="file_show/{{ user.name }}/{{file.filename}}/">{{ file.filename }}</a>
                 <div>代码描述：{{file.description}}</div>
                 <div>
                     <span>上传时间：{{ file.upload_time }}</span>
@@ -37,8 +38,9 @@
         {% else %}
             <p>还没有上传代码</p>
         {% endif %}
+</h2>
     </div>
     {% else %}
-    登录后可以上传和查看代码
+    <h2>登录后可以上传和查看代码</h2>
 {% endif %}
 {% endblock content %}

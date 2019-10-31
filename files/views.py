@@ -44,7 +44,7 @@ def upload(request):
 
 class file_show(DetailView):  # lvkai
 
-    def get(self, request):  # lvkai add ', file_id'
+    def get(self, request, user_name, file_name):  # lvkai add ', file_id'
         return render(request, 'file-show/file_show-main.html', {
             'mould': os.path.join(BASE_DIR, 'media', 'commen'),
             'MEDIA_URL': MEDIA_URL}
