@@ -189,14 +189,21 @@ class UpdatePwdView(View):
     def post(self,request):
         passwd_form = ModifyPwdForm(request.POST)
         if passwd_form.is_valid():
+            code = request.POST.get("code","")
             pwd1 = request.POST.get("password1", "")
             pwd2 = request.POST.get("password2", "")
+            mobile = request.user.mobile
+            Verify_Records = MobileVerify.objects.filter(mobile=mobile).order_by("-send_time")
+            if not Verify_Records:
+                 return HttpResponse('{"status":"failure","msg":"请重新发送验证码"}',content_type="application/json")
+            last_record = Verify_Records[0]
+            if last_record.code != code:
+                return HttpResponse('{"status":"failure"，"msg":"验证码错误"}',content_type="application/json")
             if pwd1 != pwd2:
                 return HttpResponse('{"status":"fail","msg":"密码不一致"}',  content_type='application/json')
             user = request.user
             user.password = make_password(pwd2)
             user.save()
-
             return HttpResponse('{"status":"success"}', content_type='application/json')
         else:
             return HttpResponse(json.dumps(passwd_form.errors), content_type='application/json')
@@ -269,7 +276,7 @@ class UpdateMobileView(View):
 class UpdateUserinfoView(View):
 
     def get(self,request):
-        pass
+        return render(request,'usercenter_info.html',{})
     
     def post(self,request):
         userinfo_form = UserInfoForm(request.POST)
@@ -289,3 +296,13 @@ class UpdateUserinfoView(View):
             return render(request,'usercenter_info.html',{})
             # return HttpResponse(json.dumps(userinfo_form.errors), content_type='application/json')
 
+class UpdatePwdSendView(View):
+    def get(self,request):
+        user = request.user
+        sms_status = send_code(user.mobile)
+        if (eval(sms_status)["Message"]) == 'OK':
+            return HttpResponse('{"status":"success"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status":"failure","msg":"验证码发送失败"}', content_type='application/json')
+    def post(self,request):
+        pass
