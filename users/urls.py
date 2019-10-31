@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from .views import RegisterView, LoginView, VerifyView, LogoutView, UserinfoView
-from .views import UploadImageView, UpdatePwdView
+from .views import UploadImageView, UpdatePwdView, SendEmailCodeView, SendMobileCodeView
+from .views import UpdateEmailView, UpdateMobileView,UpdateUserinfoView
 
 
 app_name = 'users'
@@ -12,4 +13,9 @@ urlpatterns = [
     url(r'^info/',UserinfoView.as_view(),name='user_info'),
     url(r'^image/upload/', UploadImageView.as_view(),name='image_upload'),
     url(r'update/pwd/',UpdatePwdView.as_view(),name='update_pwd'),
+    url(r'update/send_emailcode/', SendEmailCodeView.as_view(), name='send_emailcode'),
+    url(r'update/send_mobilecode/', SendMobileCodeView.as_view(),name='send_mobilecode'),
+    url(r'update_email/', UpdateEmailView.as_view(),name='update_email'),
+    url(r'update_mobile/', UpdateMobileView.as_view(),name='update_mobile'),
+    url(r'update_userinfo/',UpdateUserinfoView.as_view(),name="update_userinfo")
 ]

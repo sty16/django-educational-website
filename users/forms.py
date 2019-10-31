@@ -38,3 +38,9 @@ class UploadImageForm(forms.ModelForm):
 class ModifyPwdForm(forms.Form):
     password1 = forms.CharField(required=True)
     password2 = forms.CharField(required=True)
+
+class UserInfoForm(forms.ModelForm):
+    '''个人中心信息修改'''
+    class Meta:
+        model = User
+        fields = ['nickname','gender','birthday','address']
