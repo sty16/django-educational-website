@@ -40,7 +40,7 @@
                                         <h2>程序名称: {{ code.codename }}</h2>
                                         <h3>程序描述:{{code.desc}} </h3>
                                     </a>
-                                    <span class="fl" style="margin-top: 30px">下载次数：<i class="key">{{ code.download_nums }}</i></span>
+                                    <span class="fl" style="margin-top: 30px">下载次数：<i class="key" id="{{ code.id }}">{{ code.download_nums }}</i></span>
                                     <span class="fr" style="margin-top: 30px">
                                         <input class="getcode getting" type="button" id="{{ code.id }}" value="下载代码"> 
                                         </input>

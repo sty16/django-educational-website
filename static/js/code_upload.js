@@ -42,15 +42,10 @@ $(function(){
             },
             success:function(data){
                 if (data.status =="success"){
-                    // location.reload()
-                    // sleep(1000);
                     location.href = '/media/' + data.FilePath;
-                    // $.ajax({
-                    //     cache:false,
-                    //     type:"post",
-                    //     url:"/coding/download/",
-                    //     async:true,
-                    // });
+                    var count_obj = $('i#' + id);
+                    console.log(count_obj)
+                    count_obj[0].textContent = (parseInt(count_obj[0].textContent) + 1).toString();
                 }else{
                     // window.location.href = '/media/' + data.FilePath;
                     alert("对不起，网络错误，请稍后重试或联系管理员")
