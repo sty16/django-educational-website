@@ -1909,7 +1909,7 @@ textarea:focus {
 }
 
 .group_list .des span {
-    position: absolute;
+    position: relative;
     bottom: 0;
     color: #9f9f9f;
 }
@@ -5345,7 +5345,11 @@ footer .footer .line {
     line-height: 30px;
     font-size: 18px !important;
 }
-
+.companycenter .group_list .box .des h3 {
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px !important;
+}
 .companycenter .group_list .des span {
     position: relative;
 }
