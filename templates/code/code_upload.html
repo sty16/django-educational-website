@@ -1,44 +1,27 @@
-<!DOCTYPE html>
-<html lang="en-us" >
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}文件上传{% endblock %}
+{% block custom_css %}
+<link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/xadmin/css/themes/bootstrap-xadmin.css" />
+<link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/vendor/bootstrap-clockpicker/bootstrap-clockpicker.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+<script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
+<script type="text/javascript">
+  window.__admin_media_prefix__ = "/static/xadmin/";
+  window.__admin_path_prefix__ = "/xadmin/";
+  window.__admin_language_code__ = "";
+</script>
+<script type="text/javascript" src="/xadmin/jsi18n/"></script>
+{% endblock %}
   
-  <meta name="description" content="">
-  <meta name="author" content="">
-  
-  <meta name="robots" content="NONE,NOARCHIVE" />
-  <title>用户上传代码</title>
-  
-    <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/static/xadmin/css/themes/bootstrap-xadmin.css" />
-    <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/vendor/bootstrap-clockpicker/bootstrap-clockpicker.css" type="text/css" media="screen" rel="stylesheet">
-    <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
-    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
-  <script type="text/javascript">
-    window.__admin_media_prefix__ = "/static/xadmin/";
-    window.__admin_path_prefix__ = "/xadmin/";
-    window.__admin_language_code__ = "";
-  </script>
-  <script type="text/javascript" src="/xadmin/jsi18n/"></script>
-</head>
-<body class="coding-code change-form">
-  
-  <!-- Header -->
-  
-  <div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">用户提交代码</a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav pull-right">
-    </div>
-  </div>
-  
+{% block content %}
+<div class="coding-code change-form">  
   <div id="body-content" class="clearfix row">
 
     <div id="content-block" class="col-sm-11 col-md-10">
@@ -54,54 +37,40 @@
           <div class="navbar-btn pull-right hide-xs"></div>
         </div>
       </div>    
-<form class="exform" enctype="multipart/form-data" action="" method="post" id="code_form"><input type="hidden" name="csrfmiddlewaretoken" value="LgQftbpmpDxvYPGlJHaXIkDKmksAhg7l5ZUphPhszNXdN8EVEGDZZG76G8bwWz7e">
-<input type='hidden' id='_portal_key' value='coding_code_editform_portal' />
-<input type="hidden" name="csrfmiddlewaretoken" value="LgQftbpmpDxvYPGlJHaXIkDKmksAhg7l5ZUphPhszNXdN8EVEGDZZG76G8bwWz7e"> <div  
-    class="form-container row clearfix" > <div  
-    class="formColumn column form-column full col col-sm-12 form-horizontal"  span="12" horizontal> <div class="panel panel-default fieldset unsort no_title"  > <div class="panel-heading"><i class='icon fa fa-chevron-up chevron'></i><h3 class="panel-title"></h3></div> <div class="panel-body " > <div id="div_id_userinfo" class="form-group"> <label for="id_userinfo" class="control-label ">
-                上传用户
-            </label> <div class="controls "> <input type="text" name="userinfo" class="text-field admintextinputwidget form-control" maxlength="150" id="id_userinfo" value={{request.user.username}}> </div> </div> <div id="div_id_codename" class="form-group"> <label for="id_codename" class="control-label ">
-                程序名
-            </label> <div class="controls "> <input type="text" name="codename" class="text-field admintextinputwidget form-control" maxlength="50" id="id_codename"> </div> </div> <div id="div_id_desc" class="form-group"> <label for="id_desc" class="control-label ">
-                程序描述
-            </label> <div class="controls "> <input type="text" name="desc" class="text-field admintextinputwidget form-control" maxlength="300" id="id_desc"> </div> </div> <div id="div_id_fav_nums" class="form-group"> <label for="id_fav_nums" class="control-label ">
-                添加时间
-            </label> <div class="controls "> <div class="datetime clearfix"><div class="input-group date bootstrap-datepicker"><span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" name="add_time_0" value="2019/10/31" class="date-field form-control admindatewidget" size="10" id="id_add_time_0"><span class="input-group-btn"><button class="btn btn-default" type="button">今天</button></span></div><div class="input-group time bootstrap-clockpicker"><span class="input-group-addon"><i class="fa fa-clock-o"></i></span><input type="text" name="add_time_1" value="23:04" class="time-field form-control admintimewidget" size="8" id="id_add_time_1"><span class="input-group-btn"><button class="btn btn-default" type="button">现在</button></span></div></div><input type="hidden" name="initial-add_time_0" value="2019/10/31" id="initial-id_add_time_0"><input type="hidden" name="initial-add_time_1" value="23:04" id="initial-id_add_time_1"> </div> </div> <div class="form-group"> <div id="div_id_syntax_check" class="checkbox"> <label for="id_syntax_check" class=""> <input type="checkbox" name="syntax_check" class="checkboxinput" id="id_syntax_check">
-                </label> </div> </div> <div id="div_id_codefile" class="form-group"> <label for="id_codefile" class="control-label ">
-                Codefile
-            </label> <div class="controls "> <input type="file" name="codefile" class="adminfilewidget" id="id_codefile"> </div> </div> </div> </div>
-</div>
+      <form class="exform" enctype="multipart/form-data" action="" method="post" id="code_form">
+      <input type="hidden" name="csrfmiddlewaretoken" value="LgQftbpmpDxvYPGlJHaXIkDKmksAhg7l5ZUphPhszNXdN8EVEGDZZG76G8bwWz7e">
+      <input type='hidden' id='_portal_key' value='coding_code_editform_portal' />
+      <input type="hidden" name="csrfmiddlewaretoken" value="LgQftbpmpDxvYPGlJHaXIkDKmksAhg7l5ZUphPhszNXdN8EVEGDZZG76G8bwWz7e"> 
+      <div class="form-container row clearfix" > 
+      <div class="formColumn column form-column full col col-sm-12 form-horizontal"  span="12" horizontal> 
+      <div class="panel panel-default fieldset unsort no_title"  > <div class="panel-heading"><i class='icon fa fa-chevron-up chevron'></i><h3 class="panel-title"></h3></div> 
+      <div class="panel-body " > <div id="div_id_userinfo" class="form-group"> <label for="id_userinfo" class="control-label ">上传用户</label> 
+      <div class="controls "> <input type="text" name="userinfo" class="text-field admintextinputwidget form-control" maxlength="150" id="id_userinfo" value={{request.user.username}}> </div> </div> 
+      <div id="div_id_codename" class="form-group"> <label for="id_codename" class="control-label ">程序名</label> 
+      <div class="controls "> <input type="text" name="codename" class="text-field admintextinputwidget form-control" maxlength="50" id="id_codename"> </div> </div> 
+      <div id="div_id_desc" class="form-group"> <label for="id_desc" class="control-label ">程序描述</label> 
+      <div class="controls "> <input type="text" name="desc" class="text-field admintextinputwidget form-control" maxlength="300" id="id_desc"> </div> </div>
+      <div id="div_id_codefile" class="form-group"> <label for="id_codefile" class="control-label ">Codefile</label> 
+      <div class="controls "> <input type="file" name="codefile" class="adminfilewidget" id="id_codefile"> </div> </div> </div> </div>
+      </div>
+      {% csrf_token %}
 </div>
 <div class="form-actions well well-sm clearfix">
-  <button type="submit" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.." /><i class="fa fa-save"></i> 保存文件</button>
+  <button type="submit" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.." id="CodeUploadBtn"><i class="fa fa-save"></i> 保存文件</button>
 </div>
 </form>
-
-    </div>
+</div>
   </div>
   <div id="footer">
     <hr/>
     <footer class="text-center">
         <p>&copy; 用户提交代码</p>
     </footer>
-  </div>
-  
+  </div> 
+</div>
+{% endblock%}
+{% block custom_js %}
+<script type="text/javascript" src="/static/js/code_upload.js"></script>
+{% endblock %}
 
-
-<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
-  <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
-<script type="text/javascript" src="/static/xadmin/vendor/bootstrap-clockpicker/bootstrap-clockpicker.js"></script>
-<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.datetime.js"></script>
-  
-  
-</body>
-</html>
 

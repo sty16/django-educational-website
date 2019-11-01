@@ -34,13 +34,14 @@
                     <div class="group_list">
                         {% if all_codes %}
                             {% for code in all_codes %}
-                            <div class="box">
+                            <div class="box" style="height: 150px">
                                 <div class="des">
                                     <a href="">
-                                        <h2>{{ code.codename }}</h2>
+                                        <h2>程序名称: {{ code.codename }}</h2>
+                                        <h3>程序描述:{{code.desc}} </h3>
                                     </a>
-                                    <span class="fl">下载次数：<i class="key">{{ code.download_nums }}</i></span>
-                                    <span class="fr">
+                                    <span class="fl" style="margin-top: 40px">下载次数：<i class="key">{{ code.download_nums }}</i></span>
+                                    <span class="fr" style="margin-top: 40px">
                                         <input class="getcode getting" type="button" id="download_code" value="下载代码"> 
                                         </input>
                                     </span>
