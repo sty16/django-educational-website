@@ -40,10 +40,11 @@
                                         <h2>程序名称: {{ code.codename }}</h2>
                                         <h3>程序描述:{{code.desc}} </h3>
                                     </a>
-                                    <span class="fl" style="margin-top: 40px">下载次数：<i class="key">{{ code.download_nums }}</i></span>
-                                    <span class="fr" style="margin-top: 40px">
-                                        <input class="getcode getting" type="button" id="download_code" value="下载代码"> 
+                                    <span class="fl" style="margin-top: 30px">下载次数：<i class="key">{{ code.download_nums }}</i></span>
+                                    <span class="fr" style="margin-top: 30px">
+                                        <input class="getcode getting" type="button" id="{{ code.id }}" value="下载代码"> 
                                         </input>
+                                        {% csrf_token %}
                                     </span>
                                 </div>
                                 <div class="bottom">
@@ -85,6 +86,9 @@
         </div>
     </div>
 </section>
+{% endblock %}
+{% block custom_js %}
+<script type="text/javascript" src="/static/js/code_upload.js"></script>
 {% endblock %}
 
 
