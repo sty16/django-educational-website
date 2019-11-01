@@ -3,6 +3,9 @@ from django.shortcuts import render
 from django.views.generic import View
 from .models import Code
 from .forms import CodefileForm
+from django_auth_example.settings import MEDIA_URL
+from django.http import HttpResponse
+import json
 
 
 class CodeListView(View):
@@ -35,5 +38,30 @@ class CodeUploadView(View):
             # TODO 后台语法自动检测文件
             codefile.save()
             all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
-        pass 
+            return render(request, "code/code_list.html", {'all_codes':all_codes})
+        else:
+            pass 
+
+class CodeDownloadView(View):
+    def get(self,request):
+        pass
+    def post(self,request):
+        data = {'status':'failure','msg': '下载失败','FilePath':''}
+        file_id = request.POST.get("File_id","")
+        file_id = int(file_id)
+        code_file = Code.objects.get(pk=file_id)
+        num = code_file.download_nums
+        code_file.download_nums = num + 1
+        code_file.save()
+        if code_file:
+            data["status"] = 'success'
+            data["FilePath"] = str(code_file.codefile)
+            data["msg"] = '下载成功'
+            data = json.dumps(data)
+            response =  HttpResponse(data,content_type="application/json")
+            return response
+        else:
+            data = json.dumps(data)
+            return HttpResponse(data,content_type="application/json")
+
+
