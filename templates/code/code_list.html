@@ -1,0 +1,94 @@
+{#templates/code/code_list.html#}
+
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}程序列表{% endblock %}
+
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li>查看程序</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="wp">
+        <div class="list" style="margin-top:0;">
+            <div class="left layout">
+                <div class="head">
+					<ul class="tab_header">
+						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="?sort=" >最新上传</a></li>
+						<li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="?sort=hot" >下载最多 </a></li>
+                        <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="?sort=students" >点赞最多 </a></li>
+                        <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="{% url 'coding:upload'%}" >上传我的代码</a></li>
+                        
+					</ul>
+				</div>
+                <div id="inWindow">
+                    <div class="tab_cont " id="content">
+                    <div class="group_list">
+                        {% if all_codes %}
+                            {% for code in all_codes %}
+                            <div class="box" style="height: 150px">
+                                <div class="des">
+                                    <a href="">
+                                        <h2>程序名称: {{ code.codename }}</h2>
+                                        <h3>程序描述:{{code.desc}} </h3>
+                                    </a>
+                                    <span class="fl" style="margin-top: 30px">下载次数：<i class="key" id="{{ code.id }}">{{ code.download_nums }}</i></span>
+                                    <span class="fr" style="margin-top: 30px">
+                                        <input class="getcode getting" type="button" id="{{ code.id }}" value="下载代码"> 
+                                        </input>
+                                        {% csrf_token %}
+                                    </span>
+                                </div>
+                                <div class="bottom">
+                                    <a href=""><span class="fl">来自{{ code.userinfo }}</span></a>
+                                    <span class="star fr  notlogin
+                                        " data-favid="15">
+                                        {{ code.fav_nums }}
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif%}
+                    </div>
+                    <div class="pageturn">
+                        <ul class="pagelist">
+                            {% if all_codes.has_previous %}
+                                <li class="long"><a href="?{{ all_codes.previous_page_number.querystring }}">上一页</a></li>
+                            {% endif %}
+
+                            {% for page in all_codes.pages %}
+                                {% if page %}
+                                    {% ifequal page all_codes.number %}
+                                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                    {% endifequal %}
+                                {% else %}
+                                    <li class="none"><a href="">...</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if all_codes.has_next %}
+                                <li class="long"><a href="?{{ all_codes.next_page_number.querystring }}">下一页</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script type="text/javascript" src="/static/js/code_upload.js"></script>
+{% endblock %}
+
+

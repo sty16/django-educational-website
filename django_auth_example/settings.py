@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'captcha',
     'reversion',
     'video',
-    'files'
+    'files',
+    'coding'
 ]
 
 

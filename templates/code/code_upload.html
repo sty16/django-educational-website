@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}文件上传{% endblock %}
+{% block custom_css %}
+<link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/xadmin/css/themes/bootstrap-xadmin.css" />
+<link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/vendor/bootstrap-clockpicker/bootstrap-clockpicker.css" type="text/css" media="screen" rel="stylesheet">
+<link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+<script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
+<script type="text/javascript">
+  window.__admin_media_prefix__ = "/static/xadmin/";
+  window.__admin_path_prefix__ = "/xadmin/";
+  window.__admin_language_code__ = "";
+</script>
+<script type="text/javascript" src="/xadmin/jsi18n/"></script>
+{% endblock %}
+  
+{% block content %}
+<div class="coding-code change-form">  
+  <div id="body-content" class="clearfix row">
+
+    <div id="content-block" class="col-sm-11 col-md-10">
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle pull-left" onclick="javascript: history.back();"><i class="fa fa-arrow-left"></i></button>
+            <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">上传代码</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav"></ul>
+          <div class="navbar-btn pull-right hide-xs"></div>
+        </div>
+      </div>    
+      <form class="exform" enctype="multipart/form-data" action="" method="post" id="code_form">
+      <input type="hidden" name="csrfmiddlewaretoken" value="LgQftbpmpDxvYPGlJHaXIkDKmksAhg7l5ZUphPhszNXdN8EVEGDZZG76G8bwWz7e">
+      <input type='hidden' id='_portal_key' value='coding_code_editform_portal' />
+      <input type="hidden" name="csrfmiddlewaretoken" value="LgQftbpmpDxvYPGlJHaXIkDKmksAhg7l5ZUphPhszNXdN8EVEGDZZG76G8bwWz7e"> 
+      <div class="form-container row clearfix" > 
+      <div class="formColumn column form-column full col col-sm-12 form-horizontal"  span="12" horizontal> 
+      <div class="panel panel-default fieldset unsort no_title"  > <div class="panel-heading"><i class='icon fa fa-chevron-up chevron'></i><h3 class="panel-title"></h3></div> 
+      <div class="panel-body " > <div id="div_id_userinfo" class="form-group"> <label for="id_userinfo" class="control-label ">上传用户</label> 
+      <div class="controls "> <input type="text" name="userinfo" class="text-field admintextinputwidget form-control" maxlength="150" id="id_userinfo" value={{request.user.username}}> </div> </div> 
+      <div id="div_id_codename" class="form-group"> <label for="id_codename" class="control-label ">程序名</label> 
+      <div class="controls "> <input type="text" name="codename" class="text-field admintextinputwidget form-control" maxlength="50" id="id_codename"> </div> </div> 
+      <div id="div_id_desc" class="form-group"> <label for="id_desc" class="control-label ">程序描述</label> 
+      <div class="controls "> <input type="text" name="desc" class="text-field admintextinputwidget form-control" maxlength="300" id="id_desc"> </div> </div>
+      <div id="div_id_codefile" class="form-group"> <label for="id_codefile" class="control-label ">Codefile</label> 
+      <div class="controls "> <input type="file" name="codefile" class="adminfilewidget" id="id_codefile"> </div> </div> </div> </div>
+      </div>
+      {% csrf_token %}
+</div>
+<div class="form-actions well well-sm clearfix">
+  <button type="submit" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.." id="CodeUploadBtn"><i class="fa fa-save"></i> 保存文件</button>
+</div>
+</form>
+</div>
+  </div>
+  <div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>&copy; 用户提交代码</p>
+    </footer>
+  </div> 
+</div>
+{% endblock%}
+{% block custom_js %}
+<script type="text/javascript" src="/static/js/code_upload.js"></script>
+{% endblock %}
+
+

@@ -37,16 +37,6 @@
 </div>
 <div class="bg" id="dialogBg"></div>
 <header>
-    <div class="c-box fff-box">
-        <div class="wp header-box">
-            <p class="fl hd-tips">教育卫星在线平台！</p>
-            <ul class="fr hd-bar">
-                <li>服务电话：<span>xxxxxxxx</span></li>
-                <li class="active"><a href="{% url 'users:login' %}">[登录]</a></li>
-                <li><a href="{% url 'users:register' %}">[注册]</a></li>
-            </ul>
-        </div>
-    </div>
 </header>
 <section>
     <div class="c-box bg-box">
@@ -87,7 +77,7 @@
                      <input class="btn btn-green" id="jsLoginBtn" type="submit" value="立即登录 > " />
                     {% csrf_token %}
                 </form>
-                <p class="form-p">没有帐号？<a href="{% url 'users:register' %}">[立即注册]</a></p>
+                <p class="form-p">没有帐号？<a href="{% url 'users:verify' %}">[立即注册]</a></p>
             </div>
         </div>
     </div>
