@@ -24,6 +24,7 @@ $(function(){
             }
         });
     })
+    
     $('.getcode').on('click', function(){
         var obj = $(this);
         var id = obj.attr("id");
