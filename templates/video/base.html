@@ -87,6 +87,7 @@
                             <li {% if request.path|slice:'7' == '/course' %}class="active"{% endif %}>
                                 <a href="{% url 'coding:code_list' %}">
                                     查看程序<img class="hot" src="{% static 'images/nav_hot.png' %}">
+                                    
                                 </a>
                             </li>
                             <li {% if request.path|slice:'6' == '/vedio' %}class="active"{% endif %}>
