@@ -36,7 +36,7 @@
                             {% for code in all_codes %}
                             <div class="box" style="height: 150px">
                                 <div class="des">
-                                    <a href="file_show/{{ user.username }}/{{file.filename}}/">
+                                    <a href="{{ user.username }}/{{file.filename}}/">
                                         <h2>程序名称: {{ code.codename }}</h2>
                                         <h3>程序描述:{{code.desc}} </h3>
                                     </a>
