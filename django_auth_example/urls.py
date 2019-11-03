@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve, {"document_root":MEDIA_ROOT}),
     path('files/', include('files.urls')),
     path("coding/", include('coding.urls', namespace="coding")),
+    path('', include('fileshow.urls')),
 ]
