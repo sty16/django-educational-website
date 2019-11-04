@@ -5,9 +5,14 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView
 from django.utils import timezone
 import os
+import sys
+sys.path.append("..")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MEDIA_URL = os.path.join(BASE_DIR, 'media', 'commen'),
+from coding.models import Code
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FILE_URL_BASE = str(os.path.join(BASE_DIR, 'media', 'codefile')),
 # Create your views here.
 #def file_show(request, user, file):
 
