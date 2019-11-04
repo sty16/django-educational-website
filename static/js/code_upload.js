@@ -2,7 +2,10 @@ $(function(){
     $('#CodeUploadBtn').click(function(){
         var formdata = new FormData($('#code_form')[0])
         var user_id = $('#id_userinfo');
-        user_id.removeAttr("disabled")
+        user_id.removeAttr("disabled");
+        user_name = user_id.attr("value");
+        console.log(user_name);
+        formdata.append("userinfo", user_name);
         $.ajax({
             cache:false,
             type:"post",
