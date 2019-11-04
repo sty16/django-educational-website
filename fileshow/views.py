@@ -10,4 +10,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MEDIA_URL = os.path.join(BASE_DIR, 'media', 'commen'),
 # Create your views here.
 def file_show(request, user_name, file_name):
-    return render(request, 'file-show/file_show-main.html',{text:'12345'})
+    template = loader.get_template('file-show/file_show-main.html')
+    context={
+        text:'12345',
+    }
+    return HttpResponse(template.render(context,request))
