@@ -12,6 +12,6 @@ MEDIA_URL = os.path.join(BASE_DIR, 'media', 'commen'),
 def file_show(request, user_name, file_name):
     template = loader.get_template('file-show/file_show-main.html')
     context={
-        text:'12345',
+        'text':'12345',
     }
     return HttpResponse(template.render(context,request))
