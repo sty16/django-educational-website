@@ -1,4 +1,4 @@
-{% extends "files/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 
@@ -29,7 +29,7 @@
         </div>
 
         <div class="panel-body">
-            <form action="{% url 'files:file_show' %}" method="post" enctype="multipart/form-data"
+            <form action="{% url 'fileshow:show' %}" method="post" enctype="multipart/form-data"
                 class="con" style="width:80%;height:500px;border-style:solid;border-width:1pt;margin:0 auto;" id="editorDiv"
             >
             {{text}}

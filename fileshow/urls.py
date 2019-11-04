@@ -3,5 +3,6 @@ from . import views
 from django.urls import path
 app_name = 'fileshow'
 urlpatterns = [
-    path('<str:user_name>/<str:file_name>/',views.file_show, name='file_show'),
+    path(r'<user>/<file>',views.file_show, name='fileshow'),
+    path(r'show',views.show, name='show')
 ]
