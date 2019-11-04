@@ -1,6 +1,8 @@
 $(function(){
     $('#CodeUploadBtn').click(function(){
         var formdata = new FormData($('#code_form')[0])
+        var user_id = $('#id_userinfo');
+        user_id.removeAttr("disabled")
         $.ajax({
             cache:false,
             type:"post",
