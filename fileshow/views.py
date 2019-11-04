@@ -22,7 +22,7 @@ def file_show(request,user,file):
     code_file = Code.objects.get(pk=file_id)
     filename = str(code_file.codefile).split('/')[1]
     print(type(FILE_URL_BASE), type(filename))
-    fileurl = FILE_URL_BASE[0]+'\\'+filename
+    fileurl = FILE_URL_BASE[0]+'/'+filename
     with open(fileurl) as file_obj:
         contents = file_obj.read()
     context={'text':contents,}
