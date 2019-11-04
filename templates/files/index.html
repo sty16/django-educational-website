@@ -25,7 +25,7 @@
         {% if file_list %}
             <ul>
             {% for file in file_list %}
-                <a href="file_show/{{ user.name }}/{{file.filename}}/">{{ file.filename }}</a>
+                <a href="file_show/{{ user.username }}/{{file.filename}}/">{{ file.filename }}</a>
                 <div>代码描述：{{file.description}}</div>
                 <div>
                     <span>上传时间：{{ file.upload_time }}</span>

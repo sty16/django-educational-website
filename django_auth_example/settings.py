@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'reversion',
     'video',
     'files',
-    'coding'
+    'coding',
+    'fileshow'
 ]
 
 
