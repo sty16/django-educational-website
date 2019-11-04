@@ -6,10 +6,13 @@
 
 {% block content %}
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsponline code viewer </h3>
+        <div class="panel-heading"><p><h1 class="panel-title">   &nbsp&nbsp&nbsp <p>
+        </h1><p><p><p><!--
+            <h1 ><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                online code viewer </h1>
             <br>
             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            
             <button type="submit"  class="btn btn-success fileinput-button"action="">
                 <span>&nbsp&nbsp通过&nbsp&nbsp</span>
             </button>
@@ -26,14 +29,13 @@
                     <span>&nbsp&nbsp上传到卫星&nbsp&nbsp</span>
                 </button>
             <p>
+            -->
         </div>
 
         <div class="panel-body">
             <form action="{% url 'fileshow:show' %}" method="post" enctype="multipart/form-data"
                 class="con" style="width:80%;height:500px;border-style:solid;border-width:1pt;margin:0 auto;" id="editorDiv"
-            >
-            {{text}}
-</form>
+            >{{text}}</form>
         </div>
     </div>
     <br>
