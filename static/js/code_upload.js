@@ -47,15 +47,32 @@ $(function(){
                 obj.attr('disabled',true);
             },
             success:function(data){
-                if (data.status =="success"){
-                    location.href = '/media/' + data.FilePath;
+                if (data){
                     var count_obj = $('i#' + id);
                     console.log(count_obj)
                     count_obj[0].textContent = (parseInt(count_obj[0].textContent) + 1).toString();
+                    const filedata = data
+                    const blob = new Blob([filedata])
+                    const bloburl = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.download = 'template.py'
+                    a.href = bloburl
+                    a.style.display = 'none'
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
                 }else{
-                    // window.location.href = '/media/' + data.FilePath;
                     alert("对不起，网络错误，请稍后重试或联系管理员")
                 }
+                // if (data.status =="success"){
+                //     location.href = '/media/' + data.FilePath;
+                //     var count_obj = $('i#' + id);
+                //     console.log(count_obj)
+                //     count_obj[0].textContent = (parseInt(count_obj[0].textContent) + 1).toString();
+                // }else{
+                //     // window.location.href = '/media/' + data.FilePath;
+                //     alert("对不起，网络错误，请稍后重试或联系管理员")
+                // }
             },
             complete: function(XMLHttpRequest){
                 obj.val("下载代码");

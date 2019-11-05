@@ -4,10 +4,12 @@ from django.views.generic import View
 from .models import Code
 from .forms import CodefileForm
 from django_auth_example.settings import MEDIA_URL
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse, StreamingHttpResponse
 import json
+import os
 
-
+Base_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+File_DIR  = os.path.join(Base_DIR,"media","codefile")
 class CodeListView(View):
 
     def get(self, request):
@@ -50,16 +52,26 @@ class CodeDownloadView(View):
         file_id = request.POST.get("File_id","")
         file_id = int(file_id)
         code_file = Code.objects.get(pk=file_id)
-        num = code_file.download_nums
-        code_file.download_nums = num + 1
-        code_file.save()
         if code_file:
-            data["status"] = 'success'
-            data["FilePath"] = str(code_file.codefile)
-            data["msg"] = '下载成功'
-            data = json.dumps(data)
-            response =  HttpResponse(data,content_type="application/json")
+            num = code_file.download_nums
+            code_file.download_nums = num + 1
+            code_file.save()
+            filepath = str(code_file.codefile)
+            filename = filepath.split('/')[1]
+            filepath = os.path.join(File_DIR,filename)
+            download_file = open(filepath,'rb')
+            response = FileResponse(download_file)
+            response = StreamingHttpResponse(download_file)
+            response['Content-Type'] = 'application/octet-stream'
+            response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
             return response
+
+            # data["status"] = 'success'
+            # data["FilePath"] = str(code_file.codefile)
+            # data["msg"] = '下载成功'
+            # data = json.dumps(data)
+            # response =  HttpResponse(data,content_type="application/json")
+            # return response
         else:
             data = json.dumps(data)
             return HttpResponse(data,content_type="application/json")
