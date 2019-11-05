@@ -15,10 +15,9 @@
                     <li {% ifequal  '/users/info/' request.path %}
                         class="active2"
                     {% endifequal %}><a href="">个人资料</a></li>
-{% comment %}                     <li {% ifequal  '/users/mycourse/' request.path %}
+                    <li {% ifequal  '/users/mycourse/' request.path %}
                         class="active2"
-                    {% endifequal %}> {% endcomment %}
-                    <li><a href="{% url 'users:user_code' %}">我的程序</a></li>
+                    {% endifequal %}><a href="{% url 'users:user_code' %}">我的程序</a></li>
                     <li {% ifequal  '/users/myfav/' request.path|slice:'13' %}
                         class="active2"
                     {% endifequal %}><a href="">我的視頻</a></li>
