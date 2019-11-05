@@ -103,4 +103,13 @@ class CodeDownloadView(View):
             # response =  HttpResponse(data,content_type="application/json")
             # return response
 
+class CodeListByTimeView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            all_codes = Code.objects.filter(syntax_check=True).order_by("-add_time") # TODO filter 条件
+            return render(request, "code/code_list.html",{'all_codes':all_codes})
+        else:
+            all_codes = Code.objects.all()
+            return render(request, "code/code_list.html",{'all_codes':all_codes})
+
 

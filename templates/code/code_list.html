@@ -22,7 +22,7 @@
             <div class="left layout">
                 <div class="head">
 					<ul class="tab_header">
-						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="?sort=" >最新上传</a></li>
+						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'coding:sort_bytime' %}" >最新上传</a></li>
 						<li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="?sort=hot" >下载最多 </a></li>
                         <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="?sort=students" >点赞最多 </a></li>
                         <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="{% url 'coding:upload'%}" >上传我的代码</a></li>
