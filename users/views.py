@@ -312,11 +312,13 @@ class UpdatePwdSendView(View):
 
 class UsercheckedcodeView(View):
     def get(self, request):
-        checked_codes=Code.objects.filter(manual_check=True)
+        user_name = request.user.username
+        checked_codes=Code.objects.filter(userinfo=user_name ,manual_check=True)
         return render(request, "checked_mycode.html",{'checked_codes':checked_codes})
 
 class UseruncheckedcodeView(View):
     def get(self, request):
-        unchecked_codes=Code.objects.filter(manual_check=0)
+        user_name = request.user.username
+        unchecked_codes=Code.objects.filter(userinfo=user_name, manual_check=0)
         return render(request, "unchecked_mycode.html",{'unchecked_codes':unchecked_codes})
 
