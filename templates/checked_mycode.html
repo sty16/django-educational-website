@@ -1,5 +1,3 @@
-    {#templates/code/code_list.html#}
-
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %}程序列表{% endblock %}
@@ -8,8 +6,7 @@
     <section>
         <div class="wp">
             <ul class="crumbs">
-                <li><a href="{% url 'index' %}">首页</a>></li>
-                <li>查看程序</li>
+                <li><a href="{% url 'users:user_info' %}">返回个人中心</a></li>
             </ul>
         </div>
     </section>
@@ -22,18 +19,16 @@
             <div class="left layout">
                 <div class="head">
 					<ul class="tab_header">
-						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'coding:sort_bytime' %}" >最新上传</a></li>
-						<li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="{% url 'coding:sort_bydownload' %}" >下载最多 </a></li>
-                        <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="{% url 'coding:sort_bylikes' %}" >点赞最多 </a></li>
-                        <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="{% url 'coding:upload'%}" >上传我的代码</a></li>
-                        
-					</ul>
+						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'users:userchecked_code' %}" >已审核程序列表 </a></li>
+						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'users:userunckecked_code' %}" >未审核程序列表 </a></li> 
+                        <li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'coding:upload' %}" >上传程序 </a></li>
+                    </ul>
 				</div>
                 <div id="inWindow">
                     <div class="tab_cont " id="content">
                     <div class="group_list">
-                        {% if all_codes %}
-                            {% for code in all_codes %}
+                        {% if checked_codes %}
+                            {% for code in checked_codes %}
                             <div class="box" style="height: 150px">
                                 <div class="des">
                                     <a href="../../fileshow/{{ user.username }}/{{code.id}}">
@@ -90,5 +85,3 @@
 {% block custom_js %}
 <script type="text/javascript" src="/static/js/code_upload.js"></script>
 {% endblock %}
-
-

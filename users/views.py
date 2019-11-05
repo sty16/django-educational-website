@@ -13,6 +13,7 @@ from django.urls import reverse
 from utils.aliyun import send_code
 from datetime import datetime, timedelta
 import json
+from coding.models import Code
 
 
 
@@ -306,3 +307,16 @@ class UpdatePwdSendView(View):
             return HttpResponse('{"status":"failure","msg":"验证码发送失败"}', content_type='application/json')
     def post(self,request):
         pass
+
+
+
+class UsercheckedcodeView(View):
+    def get(self, request):
+        checked_codes=Code.objects.filter(manual_check=True)
+        return render(request, "checked_mycode.html",{'checked_codes':checked_codes})
+
+class UseruncheckedcodeView(View):
+    def get(self, request):
+        unchecked_codes=Code.objects.filter(manual_check=0)
+        return render(request, "unchecked_mycode.html",{'unchecked_codes':unchecked_codes})
+

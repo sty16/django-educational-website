@@ -1,28 +1,64 @@
 $(function(){
     $('#CodeUploadBtn').click(function(){
         var formdata = new FormData($('#code_form')[0])
-        $.ajax({
-            cache:false,
-            type:"post",
-            url:"/coding/upload/",
-            async:true,
-            data:formdata,
-            traditional:true, //为必须内容 　　
-            processData: false, //为必须内容
-            contentType: false, //为必须内容
-            beforeSend:function(XMLHttpRequest){
-                $('#CodeUploadBtn').val("发送中...");
-                $('#CodeUploadBtn').attr('disabled',true);
-            },
-            complete: function(XMLHttpRequest){
-                $('#CodeUploadBtn').val("上传文件");
-                $('#CodeUploadBtn').removeAttr("disabled");
-                alert('文件上传成功')
-            },
-            success: function(result) {
-                $('html').html(result)
+        var user_id = $('#id_userinfo');
+        user_id.removeAttr("disabled");
+        user_name = user_id.attr("value");
+        console.log(user_name);
+        formdata.append("userinfo", user_name);
+        // if ( !formdata.codefile){
+        //     alert('您还没有选择文件')
+        //     return 1
+        // }
+        // $('form.exform input').each(function(){
+        //     var value = $(this).attr("value");
+        //     value = value.trim();
+        //     if (value ==null || value == "" ){
+        //         $(this).focus();
+        //     }
+        // });
+        var send = true;
+        var $check = $('form.exform input');
+        for (let i = 0;i<$check.length;i++)
+        { 
+            let value = $check[i].value
+            if (value ==null || value == "" ){
+                $check[i].focus();
+                send = false;
+                break;
             }
-        });
+        }
+        if (send){
+            $.ajax({
+                cache:false,
+                type:"post",
+                url:"/coding/upload/",
+                async:true,
+                data:formdata,
+                traditional:true, //为必须内容 　　
+                processData: false, //为必须内容
+                contentType: false, //为必须内容
+                beforeSend:function(XMLHttpRequest){
+                    $('#CodeUploadBtn').val("发送中...");
+                    $('#CodeUploadBtn').attr('disabled',true);
+                },
+                complete: function(XMLHttpRequest){
+                    $('#CodeUploadBtn').val("上传文件");
+                    $('#CodeUploadBtn').removeAttr("disabled");
+                },
+                success: function(result) {
+                    if (result.status =='failure'){
+                        alert("文件存在语法错误")
+                    }else{
+                        $('html').html(result)
+                    }
+                  
+                }
+            });
+        }
+        // else{
+        //     alert("该项为必填项目")
+        // }
     })
     
     $('.getcode').on('click', function(){
@@ -42,15 +78,32 @@ $(function(){
                 obj.attr('disabled',true);
             },
             success:function(data){
-                if (data.status =="success"){
-                    location.href = '/media/' + data.FilePath;
-                    var count_obj = $('i#' + id);
-                    console.log(count_obj)
-                    count_obj[0].textContent = (parseInt(count_obj[0].textContent) + 1).toString();
+                if (data){
+                    var $count_obj = $('i#' + id);
+                    console.log($count_obj)
+                    $count_obj[0].textContent = (parseInt($count_obj[0].textContent) + 1).toString();
+                    const filedata = data
+                    const blob = new Blob([filedata])
+                    const bloburl = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.download = 'template.py'
+                    a.href = bloburl
+                    a.style.display = 'none'
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
                 }else{
-                    // window.location.href = '/media/' + data.FilePath;
                     alert("对不起，网络错误，请稍后重试或联系管理员")
                 }
+                // if (data.status =="success"){
+                //     location.href = '/media/' + data.FilePath;
+                //     var count_obj = $('i#' + id);
+                //     console.log(count_obj)
+                //     count_obj[0].textContent = (parseInt(count_obj[0].textContent) + 1).toString();
+                // }else{
+                //     // window.location.href = '/media/' + data.FilePath;
+                //     alert("对不起，网络错误，请稍后重试或联系管理员")
+                // }
             },
             complete: function(XMLHttpRequest){
                 obj.val("下载代码");
@@ -88,3 +141,14 @@ $(function(){
 //         }
 //     });
 //     }
+function QueryFilename(file_id){
+    var filename = ""
+    $.ajax({
+        cache:false,
+        type:"get",
+        url:"coding/download/",
+        async:true,
+        
+    })
+
+}

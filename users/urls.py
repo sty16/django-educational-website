@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import RegisterView, LoginView, VerifyView, LogoutView, UserinfoView
+from .views import RegisterView, LoginView, VerifyView, LogoutView, UserinfoView,UsercheckedcodeView,UseruncheckedcodeView
 from .views import UploadImageView, UpdatePwdView, SendEmailCodeView, SendMobileCodeView
 from .views import UpdateEmailView, UpdateMobileView, UpdateUserinfoView, UpdatePwdSendView
 
@@ -18,5 +18,7 @@ urlpatterns = [
     url(r'update_email/', UpdateEmailView.as_view(),name='update_email'),
     url(r'update_mobile/', UpdateMobileView.as_view(),name='update_mobile'),
     url(r'update_userinfo/',UpdateUserinfoView.as_view(),name="update_userinfo"),
-    url(r'update/pwd_send/',UpdatePwdSendView.as_view(),name="update_pwdsend")
+    url(r'update/pwd_send/',UpdatePwdSendView.as_view(),name="update_pwdsend"),
+    url(r'^mycheckedcode/',UsercheckedcodeView.as_view(),name='userchecked_code'),
+    url(r'^myuncheckedcode/',UseruncheckedcodeView.as_view(),name='userunckecked_code')
 ]
