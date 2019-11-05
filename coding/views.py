@@ -73,7 +73,20 @@ class CodeUploadView(View):
 
 class CodeDownloadView(View):
     def get(self,request):
-        pass
+        data = {'status':'failure',"filename":""}
+        file_id = request.GET.get("file_id","")
+        file_id = int(file_id)
+        code_file = Code.objects.get(pk=file_id)
+        if code_file:
+            filepath = str(code_file.codefile)
+            filename = filepath.split('/')[1]
+            data["status"] = "success"
+            data["filename"] = filename
+            data = json.dumps(data)
+            print('eeeeeeeeeeeeeeeee')
+            return HttpResponse(data, content_type="application/json")
+        else:
+            return HttpResponse(data, content_type="application/json")
     def post(self,request):
         data = {'status':'failure','msg': '下载失败','FilePath':''}
         file_id = request.POST.get("File_id","")
