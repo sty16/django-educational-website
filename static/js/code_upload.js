@@ -142,6 +142,13 @@ $(function(){
 //     });
 //     }
 function QueryFilename(file_id){
-    
+    var filename = ""
+    $.ajax({
+        cache:false,
+        type:"get",
+        url:"coding/download/",
+        async:true,
+        
+    })
 
 }
