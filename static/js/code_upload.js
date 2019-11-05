@@ -48,9 +48,9 @@ $(function(){
             },
             success:function(data){
                 if (data){
-                    var count_obj = $('i#' + id);
-                    console.log(count_obj)
-                    count_obj[0].textContent = (parseInt(count_obj[0].textContent) + 1).toString();
+                    var $count_obj = $('i#' + id);
+                    console.log($count_obj)
+                    $count_obj[0].textContent = (parseInt($count_obj[0].textContent) + 1).toString();
                     const filedata = data
                     const blob = new Blob([filedata])
                     const bloburl = window.URL.createObjectURL(blob)
