@@ -113,3 +113,24 @@ class CodeListByTimeView(View):
             return render(request, "code/code_list.html",{'all_codes':all_codes})
 
 
+class CodeListByDownloadView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            all_codes = Code.objects.filter(syntax_check=True).order_by("-download_nums") # TODO filter 条件
+            return render(request, "code/code_list.html",{'all_codes':all_codes})
+        else:
+            all_codes = Code.objects.all()
+            return render(request, "code/code_list.html",{'all_codes':all_codes})
+
+
+class CodeListByLikesView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            all_codes = Code.objects.filter(syntax_check=True).order_by("-fav_nums") # TODO filter 条件
+            return render(request, "code/code_list.html",{'all_codes':all_codes})
+        else:
+            all_codes = Code.objects.all()
+            return render(request, "code/code_list.html",{'all_codes':all_codes})
+
+
+
