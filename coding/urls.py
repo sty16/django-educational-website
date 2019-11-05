@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import CodeListView, CodeUploadView, CodeDownloadView,CodeListByTimeView
+from .views import CodeListView, CodeUploadView, CodeDownloadView,CodeListByTimeView, CodeListByDownloadView, CodeListByLikesView
 app_name = "coding"
 
 urlpatterns = [
