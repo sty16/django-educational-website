@@ -14,7 +14,7 @@ class CodeListView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.all() # TODO filter 条件
+            all_codes = Code.objects.filter(syntax_check=True) # TODO filter 条件
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
