@@ -13,6 +13,7 @@ from django.urls import reverse
 from utils.aliyun import send_code
 from datetime import datetime, timedelta
 import json
+from .models import Code
 
 
 
@@ -310,8 +311,10 @@ class UpdatePwdSendView(View):
 
 
 class UsercodeView(View):
-    def post(self,request):
-        pass
-
-    def get(self,request):
-        return render(request,'usercenter_mycode.html',{})
+    def get(self, request):
+        checked_codes=Code.objects.filter(syntax_check=True)
+        checked_codes=checked_codes.objects.filter(manual_check=True)
+        nonsyntaxchecked_codes=Code.odjects.filter(syntax_check=0)
+        nonmanualchecked_codes=Code.objects.filter(manual_check=0)
+        return render(request, "usercenter_mycode.html",{'checked_codes':checked_codes,'nonsyntaxchecked_codes':nonsyntaxchecked_codes,'nonmanualchecked_codes':nonmanualchecked_codes})
+        
