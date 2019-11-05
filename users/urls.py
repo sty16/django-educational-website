@@ -19,5 +19,5 @@ urlpatterns = [
     url(r'update_mobile/', UpdateMobileView.as_view(),name='update_mobile'),
     url(r'update_userinfo/',UpdateUserinfoView.as_view(),name="update_userinfo"),
     url(r'update/pwd_send/',UpdatePwdSendView.as_view(),name="update_pwdsend"),
-    url(r'^info/mycode/',UsercodeView.as_view(),name='user_code')
+    url(r'^mycode/',UsercodeView.as_view(),name='user_code')
 ]
