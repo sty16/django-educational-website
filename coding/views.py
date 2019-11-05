@@ -37,12 +37,38 @@ class CodeUploadView(View):
             codefile.codename = codefile_form.cleaned_data['codename']
             codefile.desc = codefile_form.cleaned_data['desc']
             codefile.codefile = codefile_form.cleaned_data['codefile']
-            # TODO 后台语法自动检测文件
             codefile.save()
+            # TODO 后台语法自动检测文件
             all_codes = Code.objects.all()
-            return render(request, "code/code_list.html", {'all_codes':all_codes})
-        else:
-            pass 
+            filename = str(codefile.codefile)
+            filename = filename.split('/')[1]
+            file_url = os.path.join(File_DIR, filename)
+            check_result = os.system('pyflakes ' + file_url)
+            print(type(check_result))
+            if  check_result == 0:
+                codefile.syntax_check = True
+                codefile.save()
+                return render(request, "code/code_list.html", {'all_codes':all_codes})
+            else:
+                os.popen('del '+file_url+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
+                error_info = os.popen('pyflakes ' + file_url, 'r' , 1).read()
+                data = {"status":"failure"}
+                data["error_info"] = error_info
+                data = json.dumps(data)
+                return HttpResponse(data, content_type="application/json")
+
+
+            # checkresult = os.popen('pyflakes '+ fileurl +'\n').read()
+            # print("\n\n\n\n\n\n"+fileurl+"\n"+checkresult+"\n\n\n\n\n")
+            # if len(checkresult) == 0: # 如果检查结果无误，则没有返回值
+            #     codefile.syntax_check = True
+            #     return render(request, "code/code_list.html", {'all_codes':all_codes})
+            # else:
+            #     os.popen('del '+fileurl+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
+            #     codefile.delete()   # 从数据库中删除
+            #     data = {"status":"failure"}
+                # return HttpResponse(data, content_type="application/json")
+
 
 class CodeDownloadView(View):
     def get(self,request):
@@ -65,6 +91,9 @@ class CodeDownloadView(View):
             response['Content-Type'] = 'application/octet-stream'
             response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
             return response
+        else:
+            data = json.dumps(data)
+            return HttpResponse(data,content_type="application/json")
 
             # data["status"] = 'success'
             # data["FilePath"] = str(code_file.codefile)
@@ -72,8 +101,5 @@ class CodeDownloadView(View):
             # data = json.dumps(data)
             # response =  HttpResponse(data,content_type="application/json")
             # return response
-        else:
-            data = json.dumps(data)
-            return HttpResponse(data,content_type="application/json")
 
 

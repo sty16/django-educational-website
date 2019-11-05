@@ -22,10 +22,14 @@ $(function(){
             complete: function(XMLHttpRequest){
                 $('#CodeUploadBtn').val("上传文件");
                 $('#CodeUploadBtn').removeAttr("disabled");
-                alert('文件上传成功')
             },
             success: function(result) {
-                $('html').html(result)
+                if (result.status =='failure'){
+                    alert("文件存在语法错误")
+                }else{
+                    $('html').html(result)
+                }
+              
             }
         });
     })
