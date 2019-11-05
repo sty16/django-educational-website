@@ -23,8 +23,8 @@
                 <div id="inWindow">
                     <div class="tab_cont " id="content">
                     <div class="group_list">
-                        {% if all_codes %}
-                            {% for code in all_codes %}
+                        {% if checked_codes %}
+                            {% for code in checked_codes %}
                             <div class="box" style="height: 150px">
                                 <div class="des">
                                     <a href="../../fileshow/{{ user.username }}/{{code.id}}">
