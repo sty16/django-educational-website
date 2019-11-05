@@ -6,6 +6,10 @@ $(function(){
         user_name = user_id.attr("value");
         console.log(user_name);
         formdata.append("userinfo", user_name);
+        if ( !formdata.codefile){
+            alert('您还没有选择文件')
+            return 1
+        }
         $.ajax({
             cache:false,
             type:"post",

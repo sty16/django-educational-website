@@ -14,7 +14,7 @@ class CodeListView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.all()
+            all_codes = Code.objects.all() # TODO filter 条件
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
@@ -50,6 +50,7 @@ class CodeUploadView(View):
                 codefile.save()
                 return render(request, "code/code_list.html", {'all_codes':all_codes})
             else:
+                codefile.delete()
                 os.popen('del '+file_url+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
                 error_info = os.popen('pyflakes ' + file_url, 'r' , 1).read()
                 data = {"status":"failure"}
