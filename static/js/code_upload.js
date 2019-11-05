@@ -6,36 +6,59 @@ $(function(){
         user_name = user_id.attr("value");
         console.log(user_name);
         formdata.append("userinfo", user_name);
-        if ( !formdata.codefile){
-            alert('您还没有选择文件')
-            return 1
-        }
-        $.ajax({
-            cache:false,
-            type:"post",
-            url:"/coding/upload/",
-            async:true,
-            data:formdata,
-            traditional:true, //为必须内容 　　
-            processData: false, //为必须内容
-            contentType: false, //为必须内容
-            beforeSend:function(XMLHttpRequest){
-                $('#CodeUploadBtn').val("发送中...");
-                $('#CodeUploadBtn').attr('disabled',true);
-            },
-            complete: function(XMLHttpRequest){
-                $('#CodeUploadBtn').val("上传文件");
-                $('#CodeUploadBtn').removeAttr("disabled");
-            },
-            success: function(result) {
-                if (result.status =='failure'){
-                    alert("文件存在语法错误")
-                }else{
-                    $('html').html(result)
-                }
-              
+        // if ( !formdata.codefile){
+        //     alert('您还没有选择文件')
+        //     return 1
+        // }
+        // $('form.exform input').each(function(){
+        //     var value = $(this).attr("value");
+        //     value = value.trim();
+        //     if (value ==null || value == "" ){
+        //         $(this).focus();
+        //     }
+        // });
+        var send = true;
+        var $check = $('form.exform input');
+        for (let i = 0;i<$check.length;i++)
+        { 
+            let value = $check[i].value
+            if (value ==null || value == "" ){
+                $check[i].focus();
+                send = false;
+                break;
             }
-        });
+        }
+        if (send){
+            $.ajax({
+                cache:false,
+                type:"post",
+                url:"/coding/upload/",
+                async:true,
+                data:formdata,
+                traditional:true, //为必须内容 　　
+                processData: false, //为必须内容
+                contentType: false, //为必须内容
+                beforeSend:function(XMLHttpRequest){
+                    $('#CodeUploadBtn').val("发送中...");
+                    $('#CodeUploadBtn').attr('disabled',true);
+                },
+                complete: function(XMLHttpRequest){
+                    $('#CodeUploadBtn').val("上传文件");
+                    $('#CodeUploadBtn').removeAttr("disabled");
+                },
+                success: function(result) {
+                    if (result.status =='failure'){
+                        alert("文件存在语法错误")
+                    }else{
+                        $('html').html(result)
+                    }
+                  
+                }
+            });
+        }
+        // else{
+        //     alert("该项为必填项目")
+        // }
     })
     
     $('.getcode').on('click', function(){
