@@ -306,3 +306,12 @@ class UpdatePwdSendView(View):
             return HttpResponse('{"status":"failure","msg":"验证码发送失败"}', content_type='application/json')
     def post(self,request):
         pass
+
+
+
+class UsercodeView(View):
+    def post(self,request):
+        pass
+
+    def get(self,request):
+        return render(request,'usercenter_mycode.html',{})
