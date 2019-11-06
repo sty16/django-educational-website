@@ -132,7 +132,7 @@ class CodeListByTimeView(View):
 class CodeListByDownloadView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True).order_by("-download_nums") # TODO filter 条件manual_check
+            all_codes = Code.objects.filter(manualx_check=True).order_by("-download_nums") # TODO filter 条件manual_check
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
