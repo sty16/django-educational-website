@@ -322,3 +322,57 @@ class UseruncheckedcodeView(View):
         unchecked_codes=Code.objects.filter(userinfo=user_name, manual_check=0)
         return render(request, "unchecked_mycode.html",{'unchecked_codes':unchecked_codes})
 
+class MobileRegView(View):
+    def get(self,request):
+        data = {"status":"failure","msg":""}
+        username = request.GET.get("username","")
+        mobile = request.GET.get("mobile","")
+        user = User.objects.filter(username=username)
+        user_mobile = User.objects.filter(mobile=mobile)
+        if user:
+            data["msg"] = "该用户名已经注册"
+            data = json.dumps(data)
+            return HttpResponse(data, content_type="application/json")
+        elif user_mobile:
+            data["msg"] = "该电话号码已经注册"
+            data = json.dumps(data)
+            return HttpResponse(data, content_type="application/json")
+        else:
+            sms_status = send_code(mobile)
+            if (eval(sms_status)["Message"]) == 'OK':
+                data["status"] = "success"
+                data["msg"] = "验证码已发送"
+                data = json.dumps(data)
+                return HttpResponse(data, content_type="application/json")
+            else:
+                data["msg"] = "失败请检查手机号"
+                data = json.dumps(data)
+                return HttpResponse(data, content_type="application/json")
+    def post(self, request):
+        data = {"status":"failure","msg":""}
+        user_name = request.POST.get('username',None)
+        user_mobile = request.POST.get('mobile', None)
+        pass_word = request.POST.get('password', None)
+        code = request.POST.get('mobile_code', None)
+        user_profile = User()
+        user_profile.username = user_name
+        user_profile.mobile = user_mobile
+        user_profile.password = make_password(pass_word)
+        verify_records = MobileVerify.objects.filter(mobile=user_mobile).order_by("-send_time")
+        if verify_records:
+            last_record = verify_records[0]
+            if last_record.code != code:
+                data["msg"] = "验证码错误"
+                data = json.dumps(data)
+                return HttpResponse(data,content_type="application/json")
+            else:
+                user_profile.is_active = True
+                user_profile.save()
+                data["status"] = "success"
+                data["msg"] = "注册成功，请登录"
+                data = json.dumps(data)
+                return HttpResponse(data,content_type="application/json")
+        else:
+            data["msg"] = "注册失败，系统错误"
+            data = json.dumps(data)
+            return HttpResponse(data,content_type="application/json")
