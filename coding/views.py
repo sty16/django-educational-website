@@ -14,7 +14,7 @@ class CodeListView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True) # TODO filter 条件
+            all_codes = Code.objects.filter(manual_check=True) # TODO filter 条件
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
@@ -48,7 +48,10 @@ class CodeUploadView(View):
             if  check_result == 0:
                 codefile.syntax_check = True
                 codefile.save()
-                return render(request, "code/code_list.html", {'all_codes':all_codes})
+                # return render(request, "code/code_list.html", {'all_codes':all_codes})
+                user_name = request.user.username
+                unchecked_codes=Code.objects.filter(userinfo=user_name, manual_check=0)
+                return render(request, "unchecked_mycode.html",{'unchecked_codes':unchecked_codes})
             else:
                 codefile.delete()
                 os.popen('del '+file_url+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
@@ -119,7 +122,7 @@ class CodeDownloadView(View):
 class CodeListByTimeView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True).order_by("-add_time") # TODO filter 条件
+            all_codes = Code.objects.filter(manual_check=True).order_by("-add_time") # TODO filter 条件
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
@@ -139,7 +142,7 @@ class CodeListByDownloadView(View):
 class CodeListByLikesView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True).order_by("-fav_nums") # TODO filter 条件 manual_check
+            all_codes = Code.objects.filter(manual_check=True).order_by("-fav_nums") # TODO filter 条件 manual_check
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
