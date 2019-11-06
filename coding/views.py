@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render
 from django.views.generic import View
-from .models import Code
+from .models import Code, LikeRecord
 from .forms import CodefileForm
 from django_auth_example.settings import MEDIA_URL
 from django.http import HttpResponse, FileResponse, StreamingHttpResponse
@@ -129,7 +129,7 @@ class CodeListByTimeView(View):
 class CodeListByDownloadView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True).order_by("-download_nums") # TODO filter 条件
+            all_codes = Code.objects.filter(syntax_check=True).order_by("-download_nums") # TODO filter 条件manual_check
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
@@ -139,11 +139,35 @@ class CodeListByDownloadView(View):
 class CodeListByLikesView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True).order_by("-fav_nums") # TODO filter 条件
+            all_codes = Code.objects.filter(syntax_check=True).order_by("-fav_nums") # TODO filter 条件 manual_check
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
             return render(request, "code/code_list.html",{'all_codes':all_codes})
+
+class CodeFavnumView(View):
+    def get(self,request):
+        pass
+
+    def post(self,request):
+        data = {"status":"failure"}
+        file_id = request.POST.get("file_id","")
+        user_name = request.user.username
+        codefile = Code.objects.get(pk=int(file_id))
+        Like_record = LikeRecord.objects.filter(Like_user=user_name).filter(Like_codefile=codefile)
+        print(len(Like_record))
+        if Like_record:
+            data = json.dumps(data)
+            return HttpResponse(data, content_type="application/json")
+        else:
+            like_newrecord = LikeRecord(Like_user=user_name)
+            like_newrecord.Like_codefile = codefile
+            like_newrecord.save()
+            codefile.fav_nums = codefile.fav_nums + 1
+            codefile.save()
+            data["status"] = "success"
+            data = json.dumps(data)
+            return HttpResponse(data,content_type="application/json")
 
 
 
