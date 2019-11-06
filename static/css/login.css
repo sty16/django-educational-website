@@ -9,6 +9,8 @@ a:hover{
 .c-box{
     width:100%;
     min-width: 1190px;
+    position: absolute;
+    top: -90px;
     overflow:hidden;
 }
 .fff-box{
