@@ -3,6 +3,7 @@ $(function(){
         var send = true;
         formdata = $('form').serialize()
         var $check = $('form#mobile_register_form input');
+        $(this).attr('disabled',true);
         for (let i=0; i<3;i++)
         {  
             let value = $check[i].value
@@ -21,7 +22,6 @@ $(function(){
                 data:formdata,
                 beforeSend:function(XMLHttpRequest){
                     $(this).val("发送中...");
-                    $(this).attr('disabled',true);
                 },
                 success:function(data){
                     if (data.status=="success"){
@@ -34,10 +34,12 @@ $(function(){
                 },
                 complete: function(XMLHttpRequest){
                     $(this).val("发送验证码");
-                    $(this).removeAttr("disabled");
                 }
             });
         }
+        setTimeout(function() {
+            $(this).removeAttr("diabled");
+            }, 3000);
     })
     $('#id_username').on('click', function(){
         $('#jsMobileTips').hide()

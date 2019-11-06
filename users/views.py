@@ -345,7 +345,7 @@ class MobileRegView(View):
                 data = json.dumps(data)
                 return HttpResponse(data, content_type="application/json")
             else:
-                data["msg"] = "失败请检查手机号"
+                data["msg"] = "发送频繁或号码错误"
                 data = json.dumps(data)
                 return HttpResponse(data, content_type="application/json")
     def post(self, request):
@@ -359,6 +359,16 @@ class MobileRegView(View):
         user_profile.mobile = user_mobile
         user_profile.password = make_password(pass_word)
         verify_records = MobileVerify.objects.filter(mobile=user_mobile).order_by("-send_time")
+        user = User.objects.filter(username=user_name)
+        usermobile = User.objects.filter(mobile=user_mobile)
+        if user:
+            data["msg"] = "该用户名已经注册"
+            data = json.dumps(data)
+            return HttpResponse(data, content_type="application/json")
+        elif usermobile:
+            data["msg"] = "该电话号码已经注册"
+            data = json.dumps(data)
+            return HttpResponse(data, content_type="application/json")
         if verify_records:
             last_record = verify_records[0]
             if last_record.code != code:
