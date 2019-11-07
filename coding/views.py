@@ -51,27 +51,17 @@ class CodeUploadView(View):
                 # return render(request, "code/code_list.html", {'all_codes':all_codes})
                 user_name = request.user.username
                 unchecked_codes=Code.objects.filter(userinfo=user_name, manual_check=0)
-                return render(request, "unchecked_mycode.html",{'unchecked_codes':unchecked_codes})
-            else:
-                codefile.delete()
-                os.popen('del '+file_url+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
-                error_info = os.popen('pyflakes ' + file_url, 'r' , 1).read()
-                data = {"status":"failure"}
-                data["error_info"] = error_info
+                data = {"status":"success"}
                 data = json.dumps(data)
                 return HttpResponse(data, content_type="application/json")
-
-
-            # checkresult = os.popen('pyflakes '+ fileurl +'\n').read()
-            # print("\n\n\n\n\n\n"+fileurl+"\n"+checkresult+"\n\n\n\n\n")
-            # if len(checkresult) == 0: # 如果检查结果无误，则没有返回值
-            #     codefile.syntax_check = True
-            #     return render(request, "code/code_list.html", {'all_codes':all_codes})
-            # else:
-            #     os.popen('del '+fileurl+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
-            #     codefile.delete()   # 从数据库中删除
-            #     data = {"status":"failure"}
-                # return HttpResponse(data, content_type="application/json")
+            else:
+                codefile.delete()
+                # os.popen('del '+file_url+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
+                # error_info = os.popen('pyflakes ' + file_url, 'r' , 1).read()
+                data = {"status":"wrong"}
+                # data["error_info"] = error_info
+                data = json.dumps(data)
+                return HttpResponse(data, content_type="application/json")
 
 
 class CodeDownloadView(View):
