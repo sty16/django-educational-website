@@ -53,6 +53,7 @@ $(function(){
             count = count -1;
         }
     });
+    
     $('#id_username').on('click', function(){
         $('#jsMobileTips').hide()
     });
