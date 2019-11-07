@@ -4,6 +4,7 @@ $(function(){
         formdata = $('form').serialize()
         var $check = $('form#mobile_register_form input');
         $(this).attr('disabled',true);
+        var display_type = false, count = 60;
         for (let i=0; i<3;i++)
         {  
             let value = $check[i].value
@@ -18,7 +19,7 @@ $(function(){
                 cache:false,
                 type:"get",
                 url:"/users/mobileregister/",
-                async:true,
+                async:false,
                 data:formdata,
                 beforeSend:function(XMLHttpRequest){
                     $(this).val("发送中...");
@@ -27,20 +28,31 @@ $(function(){
                     if (data.status=="success"){
                         $('#jsMobileTips')[0].textContent = data.msg
                         $('#jsMobileTips').show()
+                        display_type = true
                     }else{
                         $('#jsMobileTips')[0].textContent = data.msg
                         $('#jsMobileTips').show()
                     }
                 },
-                complete: function(XMLHttpRequest){
-                    $(this).val("发送验证码");
-                }
             });
         }
-        setTimeout(function() {
-            $(this).removeAttr("diabled");
-            }, 3000);
-    })
+        if (display_type){
+            const countDown = setInterval(count_down, 1000);
+        }else{
+            $('#jsSendCode').removeAttr("disabled");
+            $('#jsSendCode').text("重新发送");
+        }
+        function count_down(){
+            if (count == 0){
+                $('#jsSendCode').removeAttr("disabled");
+                $('#jsSendCode').text("发送验证码");
+                clearInterval(countDown);
+            }else{
+                $('#jsSendCode').text(String(count));
+            }
+            count = count -1;
+        }
+    });
     $('#id_username').on('click', function(){
         $('#jsMobileTips').hide()
     });
