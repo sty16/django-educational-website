@@ -49,10 +49,8 @@
                                 </div>
                                 <div class="bottom">
                                     <a href=""><span class="fl">来自{{ code.userinfo }}</span></a>
-                                    <span class="star fr  notlogin
-                                        " data-favid="15">
-                                        {{ code.fav_nums }}
-                                    </span>
+                                    <span class="star fr  Favnum" value="{{ code.fav_nums }}" name="{{ code.id }}">{{ code.fav_nums }}</span>
+                                    <!-- <a><span class="fl">点赞{{ code.fav_nums}}</span></a> -->
                                 </div>
                             </div>
                             {% endfor %}

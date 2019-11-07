@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render
 from django.views.generic import View
-from .models import Code
+from .models import Code, LikeRecord
 from .forms import CodefileForm
 from django_auth_example.settings import MEDIA_URL
 from django.http import HttpResponse, FileResponse, StreamingHttpResponse
@@ -14,7 +14,7 @@ class CodeListView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True) # TODO filter 条件
+            all_codes = Code.objects.filter(manual_check=True) # TODO filter 条件
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
@@ -48,7 +48,10 @@ class CodeUploadView(View):
             if  check_result == 0:
                 codefile.syntax_check = True
                 codefile.save()
-                return render(request, "code/code_list.html", {'all_codes':all_codes})
+                # return render(request, "code/code_list.html", {'all_codes':all_codes})
+                user_name = request.user.username
+                unchecked_codes=Code.objects.filter(userinfo=user_name, manual_check=0)
+                return render(request, "unchecked_mycode.html",{'unchecked_codes':unchecked_codes})
             else:
                 codefile.delete()
                 os.popen('del '+file_url+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
@@ -73,7 +76,20 @@ class CodeUploadView(View):
 
 class CodeDownloadView(View):
     def get(self,request):
-        pass
+        data = {'status':'failure',"filename":""}
+        file_id = request.GET.get("file_id","")
+        file_id = int(file_id)
+        code_file = Code.objects.get(pk=file_id)
+        if code_file:
+            filepath = str(code_file.codefile)
+            filename = filepath.split('/')[1]
+            data["status"] = "success"
+            data["filename"] = filename
+            data = json.dumps(data)
+            print('eeeeeeeeeeeeeeeee')
+            return HttpResponse(data, content_type="application/json")
+        else:
+            return HttpResponse(data, content_type="application/json")
     def post(self,request):
         data = {'status':'failure','msg': '下载失败','FilePath':''}
         file_id = request.POST.get("File_id","")
@@ -106,7 +122,7 @@ class CodeDownloadView(View):
 class CodeListByTimeView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True).order_by("-add_time") # TODO filter 条件
+            all_codes = Code.objects.filter(manual_check=True).order_by("-add_time") # TODO filter 条件
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
@@ -116,7 +132,7 @@ class CodeListByTimeView(View):
 class CodeListByDownloadView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True).order_by("-download_nums") # TODO filter 条件
+            all_codes = Code.objects.filter(manual_check=True).order_by("-download_nums") # TODO filter 条件manual_check
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
@@ -126,11 +142,35 @@ class CodeListByDownloadView(View):
 class CodeListByLikesView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(syntax_check=True).order_by("-fav_nums") # TODO filter 条件
+            all_codes = Code.objects.filter(manual_check=True).order_by("-fav_nums") # TODO filter 条件 manual_check
             return render(request, "code/code_list.html",{'all_codes':all_codes})
         else:
             all_codes = Code.objects.all()
             return render(request, "code/code_list.html",{'all_codes':all_codes})
+
+class CodeFavnumView(View):
+    def get(self,request):
+        pass
+
+    def post(self,request):
+        data = {"status":"failure"}
+        file_id = request.POST.get("file_id","")
+        user_name = request.user.username
+        codefile = Code.objects.get(pk=int(file_id))
+        Like_record = LikeRecord.objects.filter(Like_user=user_name).filter(Like_codefile=codefile)
+        print(len(Like_record))
+        if Like_record:
+            data = json.dumps(data)
+            return HttpResponse(data, content_type="application/json")
+        else:
+            like_newrecord = LikeRecord(Like_user=user_name)
+            like_newrecord.Like_codefile = codefile
+            like_newrecord.save()
+            codefile.fav_nums = codefile.fav_nums + 1
+            codefile.save()
+            data["status"] = "success"
+            data = json.dumps(data)
+            return HttpResponse(data,content_type="application/json")
 
 
 

@@ -17,3 +17,11 @@ class Code(models.Model):
     class Meta:
         verbose_name = "上传代码列表"
         verbose_name_plural = verbose_name
+
+class LikeRecord(models.Model):
+    Like_user = models.CharField("点赞用户",max_length=150,blank=True)
+    Like_time = models.DateTimeField("点赞时间",default=datetime.now,blank=True)
+    Like_codefile = models.ForeignKey(Code, related_name="Code",on_delete=models.DO_NOTHING)
+    class Meta:
+        verbose_name = "点赞列表"
+        verbose_name_plural = verbose_name

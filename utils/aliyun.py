@@ -44,11 +44,12 @@ def send_code(mobile):
     mobileverify = MobileVerify()
     mobileverify.mobile = mobile
     mobileverify.code = code
-    mobileverify.save()
     keyid = "LTAI4FcUXAWPquTQDFYzwguF"
     secret = "PUgtPYgNjtaVvsQBbnpPCRHOlYX1TB"
     ali = Aliyun(keyid, secret)
     sms_status = ali.send_sms(mobile, code)
+    if (eval(sms_status)["Message"]) == 'OK':
+        mobileverify.save()
     return sms_status
     # print(eval(sms_status)["Message"])
 

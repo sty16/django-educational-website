@@ -9,6 +9,8 @@ a:hover{
 .c-box{
     width:100%;
     min-width: 1190px;
+    position: absolute;
+    top: -90px;
     overflow:hidden;
 }
 .fff-box{
@@ -225,9 +227,9 @@ a:hover{
 .error{
     background: #fb8344;
     color:#fff !important;
+    line-height: 30px !important;
+    margin:55px 0;
     text-align: center;
-    line-height: 40px !important;
-    margin:10px 0;
 }
 .form-group{
     position:relative;
@@ -240,10 +242,10 @@ a:hover{
     overflow:hidden;
 }
 .marb20{
-    margin-bottom:20px;
+    margin-bottom:16px;
 }
 .marb8{
-    margin-bottom:8px;
+    margin-bottom:16px;
 }
 .marb38{
     margin-bottom:38px;
@@ -294,6 +296,7 @@ a:hover{
     color:#666;
     text-align: center;
     cursor: pointer;
+    margin-bottom: 16px;
 }
 .form-group .mobile-register-captcha{
     width:85px;
@@ -319,11 +322,12 @@ a:hover{
 }
 .btn{
     width:100%;
-    height:42px;
-    line-height:42px;
+    height:40px;
+    line-height:40px;
     font-size:14px;
     color:#fff;
     border:0;
+    margin:-35px 0;
     cursor:pointer;
 }
 .btn-green{

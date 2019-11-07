@@ -111,6 +111,52 @@ $(function(){
             }
     });
     })
+    $('.Favnum').on('click', function(){
+        // this.className = "collected fr Favnum";
+        // this.textContent = (parseInt(this.textContent) + 1).toString();
+        var file_id = $(this).attr("name");
+        file_id = String(file_id);
+        console.log(file_id);
+        var csrfToken = $("[name='csrfmiddlewaretoken']").val();
+        var display = false;
+        $.ajax({
+            cache:false,
+            type:"post",
+            url:"/coding/fav_num/",
+            async:false,
+            data:{ "file_id": file_id, "csrfmiddlewaretoken": csrfToken},
+            success:function(data){
+                if (data.status=="success")
+                {
+                    display = true;
+                }else{
+                    alert('您已点赞该代码');
+                }
+            }
+        });
+        if (display){
+            // this.className = "collected fr Favnum";
+            // location.reload()
+            this.className = "collected fr Favnum";
+            this.textContent = (parseInt(this.textContent) + 1).toString();
+        }
+        // $.ajax({
+        //     cache:false,
+        //     type:"post",
+        //     url:"/coding/fav_num/",
+        //     async:false,
+        //     data:formdata,
+        //     success:function(data){
+        //         if (data.status=="success")
+        //         {
+        //             this.className = "collected fr Favnum";
+        //             this.textContent = (parseInt(this.textContent) + 1).toString();
+        //         }else{
+        //             console.log('您已点赞');
+        //         }
+        //     }
+        // });
+    })
 });
 // function download_file(btn){
 //     var obj = $(btn);
@@ -142,13 +188,36 @@ $(function(){
 //     });
 //     }
 function QueryFilename(file_id){
-    var filename = ""
+    var filename = "";
+    send_data = {"file_id":file_id};
     $.ajax({
         cache:false,
         type:"get",
-        url:"coding/download/",
-        async:true,
-        
-    })
-
+        url:"/coding/download/",
+        async:false,  //待修改
+        data:send_data,
+        dataType:'json',
+        success:function(data){
+            if (data.status=="success"){
+                filename = data.filename;
+            }
+        }
+    });
+    return filename;
 }
+        // $.ajax({
+        //     cache:false,
+        //     type:"post",
+        //     url:"/coding/fav_num/",
+        //     async:false,
+        //     // data:formdata,
+        //     success:function(data){
+        //         if (data.status=="success")
+        //         {
+        //             this.className = "collected fr Favnum";
+        //             this.textContent = (parseInt(this.textContent) + 1).toString();
+        //         }else{
+        //             console.log('您已点赞');
+        //         }
+        //     }
+        // });

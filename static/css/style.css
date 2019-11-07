@@ -1966,12 +1966,12 @@ textarea:focus {
 
 .group_list .bottom .star {
     cursor: pointer;
-    background: #f0f0f0 url(../images/star.png) no-repeat 10px center;
+    background: #f0f0f0 url(../images/star.png) no-repeat 60px center;
 }
 
 .group_list .bottom .collected {
     cursor: pointer;
-    background: #f0f0f0 url(../images/star-hover.png) no-repeat 10px center;
+    background: #f0f0f0 url(../images/star-hover.png) no-repeat 60px center;
 }
 
 .group_list .bottom .delete-group {
