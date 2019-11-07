@@ -5,6 +5,7 @@ from .models import Code, LikeRecord
 from .forms import CodefileForm
 from django_auth_example.settings import MEDIA_URL
 from django.http import HttpResponse, FileResponse, StreamingHttpResponse
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
 import json
 import os
 
@@ -14,11 +15,16 @@ class CodeListView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True) # TODO filter 条件
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            codes = Code.objects.filter(manual_check=True).order_by("add_time") # TODO filter 条件
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_list.html", {'all_codes':all_codes})
         else:
-            all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            return render(request,"login.html")
 
 class CodeUploadView(View):
     
