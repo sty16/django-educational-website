@@ -14,6 +14,7 @@ from utils.aliyun import send_code
 from datetime import datetime, timedelta
 import json
 from coding.models import Code
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
 
 
 
@@ -313,14 +314,26 @@ class UpdatePwdSendView(View):
 class UsercheckedcodeView(View):
     def get(self, request):
         user_name = request.user.username
-        checked_codes=Code.objects.filter(userinfo=user_name ,manual_check=True)
-        return render(request, "checked_mycode.html",{'checked_codes':checked_codes})
+        codes=Code.objects.filter(userinfo=user_name ,manual_check=True).order_by("add_time")
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(codes , 9)
+        checked_codes = p.page(page)
+        return render(request, "checked_mycode.html", {'checked_codes':checked_codes})
 
 class UseruncheckedcodeView(View):
     def get(self, request):
         user_name = request.user.username
-        unchecked_codes=Code.objects.filter(userinfo=user_name, manual_check=0)
-        return render(request, "unchecked_mycode.html",{'unchecked_codes':unchecked_codes})
+        codes=Code.objects.filter(userinfo=user_name, manual_check=0).order_by("add_time")
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(codes , 9)
+        unchecked_codes = p.page(page)
+        return render(request, "unchecked_mycode.html", {'unchecked_codes':unchecked_codes})
 
 class MobileRegView(View):
     def get(self,request):

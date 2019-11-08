@@ -118,31 +118,46 @@ class CodeDownloadView(View):
 class CodeListByTimeView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True).order_by("-add_time") # TODO filter 条件
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            codes = Code.objects.filter(manual_check=True).order_by("-add_time") # TODO filter 条件
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_list.html", {'all_codes':all_codes})
         else:
-            all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+             return render(request,"login.html")
 
 
 class CodeListByDownloadView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True).order_by("-download_nums") # TODO filter 条件manual_check
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            codes = Code.objects.filter(manual_check=True).order_by("-download_nums") # TODO filter 条件syntax_check
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_list.html", {'all_codes':all_codes})
         else:
-            all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+             return render(request,"login.html")
 
 
 class CodeListByLikesView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True).order_by("-fav_nums") # TODO filter 条件 manual_check
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            codes = Code.objects.filter(manual_check=True).order_by("-fav_nums") # TODO filter 条件 syntax_check
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_list.html", {'all_codes':all_codes})
         else:
-            all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+             return render(request,"login.html")
 
 class CodeFavnumView(View):
     def get(self,request):
