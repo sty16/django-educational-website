@@ -68,7 +68,7 @@
                                 查找
                             </span>
                             <ul class="selectMenu" id="jsSelectMenu">
-                                <li data-value="course">查看程序</li>
+                                <li data-value="course">星上程序</li>
                                 <li data-value="org">观看视频</li>
                                 <li data-value="teacher">授课老师</li>
                             </ul>
@@ -86,7 +86,7 @@
                                     href="{% url 'index' %}">首页</a></li>
                             <li {% if request.path|slice:'7' == '/course' %}class="active"{% endif %}>
                                 <a href="{% url 'coding:code_list' %}">
-                                    查看程序<img class="hot" src="{% static 'images/nav_hot.png' %}">
+                                    星上程序<img class="hot" src="{% static 'images/nav_hot.png' %}">
                                 </a>
                             </li>
                             <li {% if request.path|slice:'6' == '/vedio' %}class="active"{% endif %}>

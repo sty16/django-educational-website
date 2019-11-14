@@ -12,6 +12,7 @@ class Code(models.Model):
     add_time = models.DateTimeField("添加时间",default=datetime.now,blank=True)
     syntax_check = models.BooleanField("语法审核", default=False,blank=True)
     manual_check = models.BooleanField("人工审核",default=False,blank=True)
+    star_check = models.BooleanField("是否上星", default=False, blank=True)
     codefile = models.FileField(upload_to="codefile/",blank=True)
 
     class Meta:

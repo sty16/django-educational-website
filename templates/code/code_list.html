@@ -22,15 +22,18 @@
             <div class="left layout">
                 <div class="head">
 					<ul class="tab_header">
-						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'coding:sort_bytime' %}" >最新上传</a></li>
-						<li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="{% url 'coding:sort_bydownload' %}" >下载最多 </a></li>
-                        <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="{% url 'coding:sort_bylikes' %}" >点赞最多 </a></li>
+						<li class="{% ifequal content_type 'time_list' %}active{% endifequal %}"><a href="{% url 'coding:sort_bytime' %}" >最新上传</a></li>
+						<li class="{% ifequal content_type 'download_list' %}active{% endifequal %}"><a href="{% url 'coding:sort_bydownload' %}" >下载最多 </a></li>
+                        <li class="{% ifequal content_type 'fav_list' %}active{% endifequal %}"><a href="{% url 'coding:sort_bylikes' %}" >点赞最多 </a></li>
+                         {% if request.user.is_admin %}
+                            <li class="{%ifequal content_type 'code_check' %}active{% endifequal %}"><a href="{% url 'coding:code_check'%}">审核代码</a></li>                   
+                        {% endif %}     
                         <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="{% url 'coding:upload'%}" >上传我的代码</a></li>
-                        
+
 					</ul>
 				</div>
                 <div id="inWindow">
-                    <div class="tab_cont " id="content">
+                    <div class="tab_cont " id="content"vv>
                     <div class="group_list">
                         {% if all_codes %}
                             {% for code in all_codes %}
@@ -59,22 +62,22 @@
                     <div class="pageturn">
                         <ul class="pagelist">
                             {% if all_codes.has_previous %}
-                                <li class="long"><a href="?{{ all_codes.previous_page_number.querystring }}">上一页</a></li>
+                                <li class="long"><a href="?page={{ all_codes.previous_page_number }}">上一页</a></li>
                             {% endif %}
 
-                            {% for page in all_codes.pages %}
+                            {% for page in all_codes.paginator.page_range %}
                                 {% if page %}
                                     {% ifequal page all_codes.number %}
-                                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                        <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
                                     {% else %}
-                                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                        <li><a href="?page={{ page }}" class="page">{{ page }}</a></li>
                                     {% endifequal %}
                                 {% else %}
                                     <li class="none"><a href="">...</a></li>
                                 {% endif %}
                             {% endfor %}
                             {% if all_codes.has_next %}
-                                <li class="long"><a href="?{{ all_codes.next_page_number.querystring }}">下一页</a></li>
+                                <li class="long"><a href="?page={{ all_codes.next_page_number }}">下一页</a></li>
                             {% endif %}
                         </ul>
                     </div>

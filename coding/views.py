@@ -5,6 +5,7 @@ from .models import Code, LikeRecord
 from .forms import CodefileForm
 from django_auth_example.settings import MEDIA_URL
 from django.http import HttpResponse, FileResponse, StreamingHttpResponse
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, InvalidPage
 import json
 import os
 
@@ -14,11 +15,16 @@ class CodeListView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True) # TODO filter 条件
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            codes = Code.objects.filter(manual_check=True).order_by("add_time") # TODO filter 条件
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_list.html", {'all_codes':all_codes, 'content_type':'code_list'})
         else:
-            all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            return render(request,"login.html")
 
 class CodeUploadView(View):
     
@@ -51,27 +57,17 @@ class CodeUploadView(View):
                 # return render(request, "code/code_list.html", {'all_codes':all_codes})
                 user_name = request.user.username
                 unchecked_codes=Code.objects.filter(userinfo=user_name, manual_check=0)
-                return render(request, "unchecked_mycode.html",{'unchecked_codes':unchecked_codes})
-            else:
-                codefile.delete()
-                os.popen('del '+file_url+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
-                error_info = os.popen('pyflakes ' + file_url, 'r' , 1).read()
-                data = {"status":"failure"}
-                data["error_info"] = error_info
+                data = {"status":"success"}
                 data = json.dumps(data)
                 return HttpResponse(data, content_type="application/json")
-
-
-            # checkresult = os.popen('pyflakes '+ fileurl +'\n').read()
-            # print("\n\n\n\n\n\n"+fileurl+"\n"+checkresult+"\n\n\n\n\n")
-            # if len(checkresult) == 0: # 如果检查结果无误，则没有返回值
-            #     codefile.syntax_check = True
-            #     return render(request, "code/code_list.html", {'all_codes':all_codes})
-            # else:
-            #     os.popen('del '+fileurl+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
-            #     codefile.delete()   # 从数据库中删除
-            #     data = {"status":"failure"}
-                # return HttpResponse(data, content_type="application/json")
+            else:
+                codefile.delete()
+                # os.popen('del '+file_url+'\n') # 如果是linux，这里改成 os.popen('rm '+fileurl+'\n')
+                # error_info = os.popen('pyflakes ' + file_url, 'r' , 1).read()
+                data = {"status":"wrong"}
+                # data["error_info"] = error_info
+                data = json.dumps(data)
+                return HttpResponse(data, content_type="application/json")
 
 
 class CodeDownloadView(View):
@@ -122,31 +118,46 @@ class CodeDownloadView(View):
 class CodeListByTimeView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True).order_by("-add_time") # TODO filter 条件
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            codes = Code.objects.filter(manual_check=True).order_by("-add_time") # TODO filter 条件
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_list.html", {'all_codes':all_codes, 'content_type':'time_list'})
         else:
-            all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+             return render(request,"login.html")
 
 
 class CodeListByDownloadView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True).order_by("-download_nums") # TODO filter 条件manual_check
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            codes = Code.objects.filter(manual_check=True).order_by("-download_nums") # TODO filter 条件syntax_check
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_list.html", {'all_codes':all_codes, 'content_type':'download_list'})
         else:
-            all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+             return render(request,"login.html")
 
 
 class CodeListByLikesView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            all_codes = Code.objects.filter(manual_check=True).order_by("-fav_nums") # TODO filter 条件 manual_check
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+            codes = Code.objects.filter(manual_check=True).order_by("-fav_nums") # TODO filter 条件 syntax_check
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_list.html", {'all_codes':all_codes,'content_type':'fav_list'})
         else:
-            all_codes = Code.objects.all()
-            return render(request, "code/code_list.html",{'all_codes':all_codes})
+             return render(request,"login.html")
 
 class CodeFavnumView(View):
     def get(self,request):
@@ -172,5 +183,19 @@ class CodeFavnumView(View):
             data = json.dumps(data)
             return HttpResponse(data,content_type="application/json")
 
-
-
+class CodeCheckView(View):
+ 
+    def get(self, request):
+        if request.user.is_authenticated:
+            codes = Code.objects.filter(syntax_check=True).order_by("add_time") # TODO filter 条件
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_check.html", {'all_codes':all_codes, 'content_type':'code_check'})
+        else:
+            return render(request,"login.html")
+    def post(self, request):
+        pass
