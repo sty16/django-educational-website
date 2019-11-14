@@ -187,7 +187,7 @@ class CodeCheckView(View):
  
     def get(self, request):
         if request.user.is_authenticated:
-            codes = Code.objects.filter(syntax_check=True).order_by("add_time") # TODO filter 条件
+            codes = Code.objects.filter(manual_check=False).order_by("-add_time") # TODO filter 条件
             try:
                 page = request.GET.get('page', 1)
             except PageNotAnInteger:
