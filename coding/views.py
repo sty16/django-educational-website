@@ -15,7 +15,7 @@ class CodeListView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            codes = Code.objects.filter(manual_check=True).order_by("add_time") # TODO filter 条件
+            codes = Code.objects.filter(star_check=True).order_by("add_time") # TODO filter 条件
             try:
                 page = request.GET.get('page', 1)
             except PageNotAnInteger:
@@ -99,7 +99,6 @@ class CodeDownloadView(View):
             filename = filepath.split('/')[1]
             filepath = os.path.join(File_DIR,filename)
             download_file = open(filepath,'rb')
-            response = FileResponse(download_file)
             response = StreamingHttpResponse(download_file)
             response['Content-Type'] = 'application/octet-stream'
             response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
@@ -118,7 +117,7 @@ class CodeDownloadView(View):
 class CodeListByTimeView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            codes = Code.objects.filter(manual_check=True).order_by("-add_time") # TODO filter 条件
+            codes = Code.objects.filter(star_check=True).order_by("-add_time") # TODO filter 条件
             try:
                 page = request.GET.get('page', 1)
             except PageNotAnInteger:
@@ -133,7 +132,7 @@ class CodeListByTimeView(View):
 class CodeListByDownloadView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            codes = Code.objects.filter(manual_check=True).order_by("-download_nums") # TODO filter 条件syntax_check
+            codes = Code.objects.filter(star_check=True).order_by("-download_nums") # TODO filter 条件syntax_check
             try:
                 page = request.GET.get('page', 1)
             except PageNotAnInteger:
@@ -148,7 +147,7 @@ class CodeListByDownloadView(View):
 class CodeListByLikesView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            codes = Code.objects.filter(manual_check=True).order_by("-fav_nums") # TODO filter 条件 syntax_check
+            codes = Code.objects.filter(star_check=True).order_by("-fav_nums") # TODO filter 条件 syntax_check
             try:
                 page = request.GET.get('page', 1)
             except PageNotAnInteger:
@@ -187,7 +186,7 @@ class CodeCheckView(View):
  
     def get(self, request):
         if request.user.is_authenticated:
-            codes = Code.objects.filter(syntax_check=True).order_by("add_time") # TODO filter 条件
+            codes = Code.objects.filter(manual_check=False).order_by("-add_time") # TODO filter 条件
             try:
                 page = request.GET.get('page', 1)
             except PageNotAnInteger:
@@ -198,4 +197,21 @@ class CodeCheckView(View):
         else:
             return render(request,"login.html")
     def post(self, request):
-        pass
+        data = {'status':'failure'}
+        file_id = request.POST.get("File_id","")
+        status = request.POST.get("result","")
+        file_id = int(file_id)
+        code_file = Code.objects.get(pk=file_id)
+        if code_file:
+            code_file.manual_check = True
+            if status == "True":
+                code_file.result_check = True
+            code_file.save()
+            data['status'] = "success"
+            data = json.dumps(data)
+            response = HttpResponse(data)
+            return response
+        else:
+            data = json.dumps(data)
+            return HttpResponse(data,content_type="application/json")
+

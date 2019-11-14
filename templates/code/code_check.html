@@ -43,16 +43,20 @@
                                         <h2>程序名称: {{ code.codename }}</h2>
                                         <h3>程序描述:{{code.desc}} </h3>
                                     </a>
-                                    <span class="fl" style="margin-top: 30px">下载次数：<i class="key" id="{{ code.id }}">{{ code.download_nums }}</i></span>
-                                    <span class="fr" style="margin-top: 30px">
+                                    <span type="button" class="fl" style="margin-top: 30px">
                                         <input class="getcode getting" type="button" id="{{ code.id }}" value="下载代码"> 
+                                    </span>
+                                    
+                                    <span class="fr" style="margin-top: 30px">
+                                        <input type="radio" id="{{ code.id }}" value="True" name="{{ code.id }}">通过</label> 
+                                        <input type="radio" id="{{ code.id }}" value="False" name="{{code.id }}">不通过</label> 
                                         </input>
                                         {% csrf_token %}
                                     </span>
                                 </div>
                                 <div class="bottom">
                                     <a href=""><span class="fl">来自{{ code.userinfo }}</span></a>
-                                    <span class="star fr  Favnum" value="{{ code.fav_nums }}" name="{{ code.id }}">{{ code.fav_nums }}</span>
+                                    <span class="fr codecheck" value="{{ code.id }}" name ="{{ code.id }}"  style="color:black" >提交</span>
                                     <!-- <a><span class="fl">点赞{{ code.fav_nums}}</span></a> -->
                                 </div>
                             </div>
@@ -89,7 +93,7 @@
 </section>
 {% endblock %}
 {% block custom_js %}
-<script type="text/javascript" src="/static/js/code_upload.js"></script>
+<script type="text/javascript" src="/static/js/code_check.js"></script>
 {% endblock %}
 
 
