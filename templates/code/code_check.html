@@ -48,15 +48,15 @@
                                     </span>
                                     
                                     <span class="fr" style="margin-top: 30px">
-                                        <input type="radio" id="{{ code.id }" value="True" name="code_check">通过</label> 
-                                        <input type="radio" id="{{ code.id }" value="False" name="code_check">不通过</label> 
+                                        <input type="radio" id="{{ code.id }}" value="True" name="{{ code.id }}">通过</label> 
+                                        <input type="radio" id="{{ code.id }}" value="False" name="{{code.id }}">不通过</label> 
                                         </input>
                                         {% csrf_token %}
                                     </span>
                                 </div>
                                 <div class="bottom">
                                     <a href=""><span class="fl">来自{{ code.userinfo }}</span></a>
-                                    <span class="fr  Favnum" value="" name="codecheck_submit" ><font color="black"><b>提交</b></font></span>
+                                    <span class="fr codecheck" value="{{ code.id }}" name ="{{ code.id }}"  style="color:black" >提交</span>
                                     <!-- <a><span class="fl">点赞{{ code.fav_nums}}</span></a> -->
                                 </div>
                             </div>
