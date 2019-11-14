@@ -13,6 +13,7 @@ class User(AbstractUser):
     gender = models.CharField('性别',max_length=10,blank=True,choices=gender_choices,default='male')
     address = models.CharField('地址',blank=True,max_length=100,default='')
     image = models.ImageField(upload_to='user_image/',blank=True,default='user_image/default.png',max_length=100)
+    is_admin = models.BooleanField('管理员',blank=True, default=False)
     class Meta(AbstractUser.Meta):
         pass
 

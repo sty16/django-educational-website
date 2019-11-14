@@ -22,7 +22,7 @@ class CodeListView(View):
                 page = 1
             p = Paginator(codes , 9)
             all_codes = p.page(page)
-            return render(request, "code/code_list.html", {'all_codes':all_codes})
+            return render(request, "code/code_list.html", {'all_codes':all_codes, 'content_type':'code_list'})
         else:
             return render(request,"login.html")
 
@@ -125,7 +125,7 @@ class CodeListByTimeView(View):
                 page = 1
             p = Paginator(codes , 9)
             all_codes = p.page(page)
-            return render(request, "code/code_list.html", {'all_codes':all_codes})
+            return render(request, "code/code_list.html", {'all_codes':all_codes, 'content_type':'time_list'})
         else:
              return render(request,"login.html")
 
@@ -140,7 +140,7 @@ class CodeListByDownloadView(View):
                 page = 1
             p = Paginator(codes , 9)
             all_codes = p.page(page)
-            return render(request, "code/code_list.html", {'all_codes':all_codes})
+            return render(request, "code/code_list.html", {'all_codes':all_codes, 'content_type':'download_list'})
         else:
              return render(request,"login.html")
 
@@ -155,7 +155,7 @@ class CodeListByLikesView(View):
                 page = 1
             p = Paginator(codes , 9)
             all_codes = p.page(page)
-            return render(request, "code/code_list.html", {'all_codes':all_codes})
+            return render(request, "code/code_list.html", {'all_codes':all_codes,'content_type':'fav_list'})
         else:
              return render(request,"login.html")
 
@@ -183,5 +183,19 @@ class CodeFavnumView(View):
             data = json.dumps(data)
             return HttpResponse(data,content_type="application/json")
 
-
-
+class CodeCheckView(View):
+ 
+    def get(self, request):
+        if request.user.is_authenticated:
+            codes = Code.objects.filter(syntax_check=True).order_by("add_time") # TODO filter 条件
+            try:
+                page = request.GET.get('page', 1)
+            except PageNotAnInteger:
+                page = 1
+            p = Paginator(codes , 9)
+            all_codes = p.page(page)
+            return render(request, "code/code_check.html", {'all_codes':all_codes, 'content_type':'code_check'})
+        else:
+            return render(request,"login.html")
+    def post(self, request):
+        pass

@@ -1,3 +1,5 @@
+{#templates/code/code_check.html#}
+
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %}程序列表{% endblock %}
@@ -6,7 +8,8 @@
     <section>
         <div class="wp">
             <ul class="crumbs">
-                <li><a href="{% url 'users:user_info' %}">返回个人中心</a></li>
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li>查看程序</li>
             </ul>
         </div>
     </section>
@@ -19,16 +22,21 @@
             <div class="left layout">
                 <div class="head">
 					<ul class="tab_header">
-						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'users:userchecked_code' %}" >已审核程序列表 </a></li>
-						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'users:userunckecked_code' %}" >未审核程序列表 </a></li> 
-                        <li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'coding:upload' %}" >上传我的程序 </a></li>
-                    </ul>
+						<li class="{% ifequal content_type 'time_list' %}active{% endifequal %}"><a href="{% url 'coding:sort_bytime' %}" >最新上传</a></li>
+						<li class="{% ifequal content_type 'download_list' %}active{% endifequal %}"><a href="{% url 'coding:sort_bydownload' %}" >下载最多 </a></li>
+                        <li class="{% ifequal content_type 'fav_list' %}active{% endifequal %}"><a href="{% url 'coding:sort_bylikes' %}" >点赞最多 </a></li>
+                         {% if request.user.is_admin %}
+                            <li class="active"><a href="">审核代码</a></li>                   
+                        {% endif %}     
+                        <li class="{% ifequal sort 'students' %}active{% endifequal %}"><a href="{% url 'coding:upload'%}" >上传我的代码</a></li>
+
+					</ul>
 				</div>
                 <div id="inWindow">
-                    <div class="tab_cont " id="content">
+                    <div class="tab_cont " id="content"vv>
                     <div class="group_list">
-                        {% if checked_codes %}
-                            {% for code in checked_codes %}
+                        {% if all_codes %}
+                            {% for code in all_codes %}
                             <div class="box" style="height: 150px">
                                 <div class="des">
                                     <a href="../../fileshow/{{ user.username }}/{{code.id}}">
@@ -44,10 +52,8 @@
                                 </div>
                                 <div class="bottom">
                                     <a href=""><span class="fl">来自{{ code.userinfo }}</span></a>
-                                    <span class="star fr  notlogin
-                                        " data-favid="15">
-                                        {{ code.fav_nums }}
-                                    </span>
+                                    <span class="star fr  Favnum" value="{{ code.fav_nums }}" name="{{ code.id }}">{{ code.fav_nums }}</span>
+                                    <!-- <a><span class="fl">点赞{{ code.fav_nums}}</span></a> -->
                                 </div>
                             </div>
                             {% endfor %}
@@ -55,13 +61,13 @@
                     </div>
                     <div class="pageturn">
                         <ul class="pagelist">
-                            {% if checked_codes.has_previous %}
-                                <li class="long"><a href="?page={{ checked_codes.previous_page_number }}">上一页</a></li>
+                            {% if all_codes.has_previous %}
+                                <li class="long"><a href="?page={{ all_codes.previous_page_number }}">上一页</a></li>
                             {% endif %}
 
-                            {% for page in checked_codes.paginator.page_range %}
+                            {% for page in all_codes.paginator.page_range %}
                                 {% if page %}
-                                    {% ifequal page checked_codes.number %}
+                                    {% ifequal page all_codes.number %}
                                         <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
                                     {% else %}
                                         <li><a href="?page={{ page }}" class="page">{{ page }}</a></li>
@@ -70,8 +76,8 @@
                                     <li class="none"><a href="">...</a></li>
                                 {% endif %}
                             {% endfor %}
-                            {% if checked_codes.has_next %}
-                                <li class="long"><a href="?page={{ checked_codes.next_page_number }}">下一页</a></li>
+                            {% if all_codes.has_next %}
+                                <li class="long"><a href="?page={{ all_codes.next_page_number }}">下一页</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -85,3 +91,5 @@
 {% block custom_js %}
 <script type="text/javascript" src="/static/js/code_upload.js"></script>
 {% endblock %}
+
+
