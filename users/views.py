@@ -314,7 +314,7 @@ class UpdatePwdSendView(View):
 class UsercheckedcodeView(View):
     def get(self, request):
         user_name = request.user.username
-        codes=Code.objects.filter(userinfo=user_name ,manual_check=True).order_by("add_time")
+        codes=Code.objects.filter(userinfo=user_name ,result_check=True, manual_check=True).order_by("add_time")
         try:
             page = request.GET.get('page', 1)
         except PageNotAnInteger:
@@ -322,6 +322,21 @@ class UsercheckedcodeView(View):
         p = Paginator(codes , 9)
         checked_codes = p.page(page)
         return render(request, "checked_mycode.html", {'checked_codes':checked_codes})
+
+
+class UsercheckedfailcodeView(View):
+    def get(self, request):
+        user_name = request.user.username
+        codes=Code.objects.filter(userinfo=user_name ,result_check=0, manual_check=True).order_by("add_time")
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(codes , 9)
+        checkedfail_codes = p.page(page)
+        return render(request, "checkfail_mycode.html", {'checkedfail_codes':checkedfail_codes})
+
+
 
 class UseruncheckedcodeView(View):
     def get(self, request):
