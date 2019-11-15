@@ -321,7 +321,7 @@ class UsercheckedcodeView(View):
             page = 1
         p = Paginator(codes , 9)
         checked_codes = p.page(page)
-        return render(request, "checked_mycode.html", {'checked_codes':checked_codes})
+        return render(request, "checked_mycode.html", {'checked_codes':checked_codes,"status":"checked"})
 
 
 class UsercheckedfailcodeView(View):
@@ -334,8 +334,7 @@ class UsercheckedfailcodeView(View):
             page = 1
         p = Paginator(codes , 9)
         checkedfail_codes = p.page(page)
-        return render(request, "checkfail_mycode.html", {'checkedfail_codes':checkedfail_codes})
-
+        return render(request, "checkfail_mycode.html", {'checkedfail_codes':checkedfail_codes,"status":"check_fail"})
 
 
 class UseruncheckedcodeView(View):
@@ -348,7 +347,7 @@ class UseruncheckedcodeView(View):
             page = 1
         p = Paginator(codes , 9)
         unchecked_codes = p.page(page)
-        return render(request, "unchecked_mycode.html", {'unchecked_codes':unchecked_codes})
+        return render(request, "unchecked_mycode.html", {'unchecked_codes':unchecked_codes,"status":"unchecked"})
 
 class MobileRegView(View):
     def get(self,request):

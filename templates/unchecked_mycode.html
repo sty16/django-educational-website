@@ -19,11 +19,11 @@
             <div class="left layout">
                 <div class="head">
 					<ul class="tab_header">
-						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'users:userchecked_code' %}" >审核通过程序列表 </a></li>
-                        <li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'users:userckeckedfail_code' %}" >审核未通过程序列表 </a></li>
-						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'users:userunckecked_code' %}" >未审核程序列表 </a></li>
+                        <li class="{% ifequal status 'checked' %}active{% endifequal %}"><a href="{% url 'users:userchecked_code' %}" >审核通过程序列表 </a></li>
+                        <li class="{% ifequal status 'check_fail' %}active{% endifequal %}"><a href="{% url 'users:userckeckedfail_code' %}" >审核未通过程序列表 </a></li>
+						<li class="{% ifequal status 'unchecked' %}active{% endifequal %}"><a href="{% url 'users:userunckecked_code' %}" >未审核程序列表 </a></li> 
                         <li class="{% ifequal sort '' %}active{% endifequal %}"><a href="{% url 'coding:upload' %}" >上传我的程序 </a></li>
-					</ul>
+ 				</ul>
 				</div>
                 <div id="inWindow">
                     <div class="tab_cont " id="content">
