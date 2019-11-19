@@ -29,3 +29,4 @@ django.setup()
 def test():
     """this is tests.py"""
     print('hello')
+    
