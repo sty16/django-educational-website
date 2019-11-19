@@ -4,7 +4,7 @@ Test suite for basic views
 import os
 import django
 # from django.test import TestCase
-from django.test import Client
+# from django.test import Client
 
 
 os.environ.update({"DJANGO_SETTINGS_MODULE": "django_auth_example.settings"})
