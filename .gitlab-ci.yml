@@ -27,10 +27,10 @@ unit-test:
     - coverage report
     - exit $ret
   after_script:
-    - SUFFIX=$RANDOM
-    - curl "http://10.0.0.11/sonar-scanner.tar.gz" -s -o "/tmp/sonar-$SUFFIX.tar.gz"
-    - tar -xf "/tmp/sonar-$SUFFIX.tar.gz"  -C /opt
-    - /opt/sonar-scanner/bin/sonar-scanner
+    # - SUFFIX=$RANDOM
+    # - curl "http://10.0.0.11/sonar-scanner.tar.gz" -s -o "/tmp/sonar-$SUFFIX.tar.gz"
+    # - tar -xf "/tmp/sonar-$SUFFIX.tar.gz"  -C /opt
+    # - /opt/sonar-scanner/bin/sonar-scanner
 
 style-test:
   image: python:3.6.5
