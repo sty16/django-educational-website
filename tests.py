@@ -22,11 +22,11 @@ django.setup()
 #         '''Test method not allowed'''
 #         response = self.client.post('/')
 #         self.assertEqual(response.status_code, 405)
-        #   client = Client()
-        #   response = client.get('/')
-        #   assert response.status_code == 200
+#         client = Client()
+#         response = client.get('/')
+#         assert response.status_code == 200
+
 
 def test():
     """this is tests.py"""
     print('hello')
-    
