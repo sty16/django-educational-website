@@ -1,5 +1,5 @@
 import xadmin
-from .models import User
+from .models import User, Banner
 from xadmin import views
 
 class GlobalSettings(object):
@@ -16,8 +16,14 @@ class UserAdmin(object):
     search_fields = ['username', 'email', 'date_joined','mobile']
     list_filter = ['username', 'email', 'date_joined','mobile']
 
+class BannerAdmin(object):
+    list_display = ['title', 'image','index', 'add_time']
+    search_fields = ['title', 'image','index']
+    list_filter = ['title', 'image', 'index', 'add_time']
+
+
 # admin.site.unregister(User)
 xadmin.site.unregister(User)
 xadmin.site.register(User, UserAdmin)
 xadmin.site.register(views.CommAdminView,GlobalSettings)
-
+xadmin.site.register(Banner,BannerAdmin)

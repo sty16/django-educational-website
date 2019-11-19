@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm, UserInfoForm
 from .forms import VerifyForm,UploadImageForm, ModifyPwdForm
 from django.views.generic import View
-from .models import User, EmailVerifyRecord
+from .models import User, EmailVerifyRecord,Banner
 from .models import MobileVerify
 from django.contrib.auth.hashers import make_password
 from utils.email_send import yag_send_register_email
@@ -184,7 +184,8 @@ class UploadImageView(View):
             return HttpResponse('{"status":"fail"}', content_type='application/json')
 
 def index(request):
-    return render(request, 'satellite_index.html')
+    all_banners = Banner.objects.all()
+    return render(request, 'satellite_index.html',{'all_banners':all_banners})
 
 
 class UpdatePwdView(View):
