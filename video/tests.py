@@ -34,3 +34,36 @@ class VideoModelTest(TestCase):
         self.assertEquals(max_length,100)
 
 
+class VideoViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        num_of_videos = 5
+        #Set up non-modified objects used by all test methods
+        for video_num in range(num_of_videos):
+            Video.objects.create(title='video %s' % video_num,description="description %s" % video_num)
+
+    def test_video_url(self):
+        resp=self.client.get('/video/')
+        self.assertEqual(resp.status_code,200)
+    
+    def test_video_detail_url(self):
+        video_num=0
+        resp=self.client.get('/video/'+str(video_num+1)+'/')
+        self.assertEqual(resp.status_code,200)
+
+    def test_use_correct_template(self):
+        resp = self.client.get('/video/')
+        self.assertTemplateUsed(resp,'video/index.html')
+
+    def test_use_correct_detail_template(self):
+        resp = self.client.get('/video/1/')
+        self.assertTemplateUsed(resp,'video/detail.html')
+
+    def test_video_in_context(self):
+        resp = self.client.get('/video/')
+        self.assertTrue('video_list' in resp.context)
+    
+    def test_video_detail_in_context(self):
+        resp = self.client.get('/video/1/')
+        self.assertTrue('video' in resp.context)
