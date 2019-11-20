@@ -10,6 +10,8 @@ class UsersModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-modified objects used by all test methods
         User.objects.create(nickname='alice')
+        EmailVerifyRecord.objects.create(code='123456')
+        MobileVerify.objects.create(code='123456')
 
     def test_is_admin_label(self):
         name=User.objects.get(id=1)
@@ -46,3 +48,42 @@ class UsersModelTest(TestCase):
         name=User.objects.get(id=1)
         field_label=name._meta.get_field('image').verbose_name
         self.assertEquals(field_label,'image')
+
+    def test_code_label(self):
+        name=EmailVerifyRecord.objects.get(id=1)
+        field_label=name._meta.get_field('code').verbose_name
+        self.assertEquals(field_label,'验证码')
+
+    def test_email_type_label(self):
+        name=EmailVerifyRecord.objects.get(id=1)
+        field_label=name._meta.get_field('email').verbose_name
+        self.assertEquals(field_label,'邮箱')
+
+    def test_send_type_label(self):
+        name=EmailVerifyRecord.objects.get(id=1)
+        field_label=name._meta.get_field('send_type').verbose_name
+        self.assertEquals(field_label,'send type')
+
+
+    def test_send_time_label(self):
+        name=EmailVerifyRecord.objects.get(id=1)
+        field_label=name._meta.get_field('send_time').verbose_name
+        self.assertEquals(field_label,'send time')
+
+    def test_mobile_code_label(self):
+        name=MobileVerify.objects.get(id=1)
+        field_label=name._meta.get_field('code').verbose_name
+        self.assertEquals(field_label,'验证码')
+
+    def test_send_mobile_label(self):
+        name=MobileVerify.objects.get(id=1)
+        field_label=name._meta.get_field('mobile').verbose_name
+        self.assertEquals(field_label,'电话')
+
+    def test_send_mobile_time_label(self):
+        name=MobileVerify.objects.get(id=1)
+        field_label=name._meta.get_field('send_time').verbose_name
+        self.assertEquals(field_label,'send time')
+
+
+
