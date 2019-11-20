@@ -22,9 +22,9 @@ unit-test:
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple coverage pylint pylint-django pytest-django
   script:
-    - coverage run -m pytest tests.py
+    - coverage run manage.py test
     - ret=$?
-    - coverage report
+    - coverage xml
     - exit $ret
   after_script:
     # - SUFFIX=$RANDOM
