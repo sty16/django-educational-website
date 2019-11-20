@@ -24,6 +24,7 @@ unit-test:
   script:
     - coverage run manage.py test
     - ret=$?
+    - rm -f coverage.xml
     - coverage xml
     - exit $ret
   after_script:
