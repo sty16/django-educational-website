@@ -10,7 +10,8 @@ class Video(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, blank=True, max_length=20)
 
     class Meta:
-        verbose_name_plural = 'Video'
+        verbose_name = '视频'
+        verbose_name_plural = '视频'
         db_table = 'Video'
 
     def __str__(self):
