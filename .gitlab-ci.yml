@@ -22,10 +22,11 @@ unit-test:
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple coverage pylint pylint-django pytest-django
   script:
-    - ls *.xml
+    - ls -al
     - coverage run --source='video' manage.py test
     - ret=$?
     - coverage xml
+    - ls -al
     - exit $ret
   after_script:
     # - SUFFIX=$RANDOM
